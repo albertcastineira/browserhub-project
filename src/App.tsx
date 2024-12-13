@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { CssBaseline, ThemeProvider as MuiThemeProvider, ThemeProvider } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { CssBaseline, ThemeProvider as MuiThemeProvider } from '@mui/material';
 import defaultTheme from './theme/theme';
 import { createTheme } from '@mui/material';
 import SettingsDialog from './components/SettingsDialog';
