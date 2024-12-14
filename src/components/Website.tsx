@@ -1,34 +1,89 @@
-import React from "react";
+import React, { useState } from "react";
 import { Icon } from "@iconify/react";
-import { Button } from "@mui/material";
+import { Box, Button, Divider, Menu, MenuItem, useTheme } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import LanguageIcon from '@mui/icons-material/Language';
 
 export interface WebsiteProps {
     name: string;
     iconName: string;
     url: string;
     categoryId: string;
+    onDelete: () => void;
+    onEdit: () => void;
 }
 
-const Website: React.FC<WebsiteProps> = ({ categoryId, name, url, iconName }) => {
+const Website: React.FC<WebsiteProps> = ({ categoryId, name, url, iconName, onDelete, onEdit }) => {
+    const theme = useTheme();
+    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-    const handleOpenNewTab = (url: string) => {
+    const handleOpenNewTab = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
         window.open(url, '_blank');
     };
 
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     return (
-        <Button
-            key={`$Website_${name}_${categoryId}`}
-            variant="contained"
-            startIcon={<Icon icon={iconName} width="30" height="30" />} 
-            onClick={() => handleOpenNewTab(url)}
-            sx={{
-                width: '100%',
-                height: "10vh",
-                fontWeight: "bold",
-            }}
-        >
-            {name}
-        </Button>
+        <>  <Box sx={{bgcolor: "primary.main",  borderRadius: 1}}>
+            <Button
+                id={`Website_${name}_${categoryId}`}
+                onClick={handleOpenNewTab}
+                onContextMenu={handleClick}
+                sx={{
+                    width: '100%',
+                    height: "12vh",
+                    fontWeight: "bold",
+                    paddingTop: 6,
+                    color: "black"
+                   
+                }}
+                disableRipple
+            >
+                <Box sx={{position: "absolute", top: "23px", zIndex: 10, width: "100%"}}>
+                    <LanguageIcon sx={{fontSize: "32px"}}/>
+                </Box>
+                <Box sx={{bgcolor: "primary.main", zIndex: 100, width: "100%"}} className="website-icon">
+                    <Icon icon={iconName} width="30" height="30" />
+                </Box>
+                
+                {name}
+            </Button>
+            </Box>
+
+            <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+            >
+                <MenuItem sx={{ fontWeight: "bold" }} disableRipple>
+                    <LanguageIcon sx={{ marginRight: 1 }} /> {name}
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={() => { handleClose(); onEdit(); }} disableRipple>
+                    <EditIcon sx={{ marginRight: 1 }} /> Edit
+                </MenuItem>
+                <MenuItem onClick={() => { handleClose(); onDelete(); }} disableRipple sx={{ color: 'red' }}>
+                    <DeleteIcon sx={{ marginRight: 1 }} /> Delete
+                </MenuItem>
+            </Menu>
+        </>
     );
 };
 
