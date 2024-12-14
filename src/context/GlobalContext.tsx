@@ -8,6 +8,8 @@ interface GlobalContextValue {
     categories: Category[];
     websites: Website[];
     selectedCategory: string;
+    setCategories: (categories: Category[])  => void,
+    setWebsites: (websites: Website[])  => void,
     setSelectedCategory: (categoryId: string) => void;
     filteredWebsites: Website[];
 }
@@ -16,6 +18,8 @@ export const GlobalContext = createContext<GlobalContextValue>({
     categories: [],
     websites: [],
     selectedCategory: "0",
+    setCategories: () => {},
+    setWebsites: () => {},
     setSelectedCategory: () => {},
     filteredWebsites: []
 });
@@ -38,6 +42,8 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
     const contextValue: GlobalContextValue = {
         categories,
         websites,
+        setCategories,
+        setWebsites,
         selectedCategory,
         setSelectedCategory,
         filteredWebsites,
