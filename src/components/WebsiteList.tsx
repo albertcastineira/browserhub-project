@@ -41,6 +41,8 @@ const WebsiteList: React.FC<WebsiteListProps> = () => {
                             iconName={getBrandFromUrl(website.url)}
                             name={website.name}
                             url={website.url}
+                            onEdit={() => console.log("")}
+                            onDelete={() => console.log("")}
                         />
                     </div>
                 ))}

@@ -1,4 +1,8 @@
 .website-icon {
-    position: absolute;
-    top: 25px;
-  }
+  position: absolute;
+  top: 25px;
+}
+
+p {
+  margin: 0;
+}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
-import { Box, Button, Divider, Menu, MenuItem, useTheme } from "@mui/material";
+import { Box, Button, Divider, Menu, MenuItem } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -15,7 +15,6 @@ export interface WebsiteProps {
 }
 
 const Website: React.FC<WebsiteProps> = ({ categoryId, name, url, iconName, onDelete, onEdit }) => {
-    const theme = useTheme();
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
     const handleOpenNewTab = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -43,7 +42,7 @@ const Website: React.FC<WebsiteProps> = ({ categoryId, name, url, iconName, onDe
                     height: "12vh",
                     fontWeight: "bold",
                     paddingTop: 6,
-                    color: "black"
+                    color: "white"
                    
                 }}
                 disableRipple

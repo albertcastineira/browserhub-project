@@ -16,12 +16,13 @@ const defaultTheme = createTheme({
 });
 
 export const defaultThemePrimaryColors = [
-    '#1976d2', // Blue
-    '#4caf50', // Green
-    '#f57c00', // Orange
-    '#EAB308', // Yellow
-    '#00acc1', // Cyan
-    '#9c27b0', // Purple
+    { name: 'Ocean', color: '#1976d2' },
+    { name: 'Sky', color: '#00acc1' },
+    { name: 'Forest', color: '#009688' },
+    { name: 'Nature', color: '#4caf50' },
+    { name: 'Pumkin', color: '#e65100' },
+    { name: 'Cherry', color: '#bf360c' },
 ];
+
 
 export default defaultTheme;

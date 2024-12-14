@@ -1,41 +1,76 @@
+import React, { useState } from 'react';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import ImageIcon from '@mui/icons-material/Image';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 
 export default function SearchBar() {
+  const [searchType, setSearchType] = useState('Default');
+  const [query, setQuery] = useState('');
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setSearchType(newValue);
+    console.log(event);
+  };
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (query.trim()) {
+      let baseUrl = 'https://www.google.com/search?q=';
+      switch (searchType) {
+        case 'Default':
+          window.open(`${baseUrl}${encodeURIComponent(query)}`, '_blank');
+          break;
+        case 'Images':
+          window.open(`${baseUrl}${encodeURIComponent(query)}&udm=2`, '_blank');
+          break;
+        case 'Videos':
+          window.open(`${baseUrl}${encodeURIComponent(query)}&udm=7`, '_blank');
+          break; 
+        case 'Maps':
+          window.open(`https://www.google.com/maps?q=${encodeURIComponent(query)}`, '_blank');
+          break;
+        case 'News':
+          window.open(`${baseUrl}${encodeURIComponent(query)}&tbm=nws`, '_blank');
+          break;
+        default:
+          window.open(baseUrl, '_blank');
+      }
+    }
+  };
 
   return (
     <Paper
       component="form"
-      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: "400"}}
+      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: "400" }}
+      onSubmit={handleSearch}
     >
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="Search ..."
-        inputProps={{ 'aria-label': 'search google maps' }}
+        placeholder={`${searchType} search ...`}
+        inputProps={{ 'aria-label': `search google ${searchType}` }}
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
       />
-      <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-        <SearchIcon />
-      </IconButton>
-      <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-      <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
-        <ImageIcon />
-      </IconButton>
-      <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
-        <SlideshowIcon />
-      </IconButton>
-      <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
-        <DirectionsIcon />
-      </IconButton>
-      <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
-        <NewspaperIcon />
-      </IconButton>
+      <Tabs
+        value={searchType}
+        onChange={handleChange}
+        indicatorColor="primary"
+        textColor="primary"
+        variant="fullWidth"
+        aria-label="search type tabs"
+      >
+        <Tab value="Default" icon={<SearchIcon />} />
+        <Tab value="Images" icon={<ImageIcon />} />
+        <Tab value="Videos" icon={<SlideshowIcon />} />
+        <Tab value="Maps" icon={<DirectionsIcon />} />
+        <Tab value="News" icon={<NewspaperIcon />} />
+      </Tabs>
     </Paper>
   );
 }

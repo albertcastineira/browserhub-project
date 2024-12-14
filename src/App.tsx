@@ -75,6 +75,8 @@ function App() {
             <MuiThemeProvider theme={currentTheme}>
                 <CssBaseline />
                 <Layout handleOpenSettings={handleToggleSettingsDialog} />
+
+                {/* Dialogs */}
                 <SettingsDialog
                     open={settingsOpen}
                     mode={mode}
