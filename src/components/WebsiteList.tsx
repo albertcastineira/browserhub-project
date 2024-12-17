@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, useTheme } from '@mui/material';
 import { Website as WebsiteInterface } from '../domain/interfaces/Website.interface';
 import Website from './Website';
 import { GlobalContext } from '../context/GlobalContext';
@@ -13,15 +13,15 @@ interface WebsiteListProps {
 const WebsiteList: React.FC<WebsiteListProps> = () => {
     const { selectedCategory, websites, websiteFormOpen, setWebsiteFormOpen, setWebsiteFormMode, setCurrentWebsiteId, deleteWebsite } = useContext(GlobalContext);
     const [filteredWebsites, setFilteredWebsites] = useState<WebsiteInterface[]>([]);
+    const theme = useTheme();
 
     useEffect(() => {
-        if (selectedCategory != "0") {
+        if (selectedCategory !== "0") {
             const filtered = websites.filter((website) => website.categoryId === selectedCategory);
             setFilteredWebsites(filtered);
         } else {
             setFilteredWebsites(websites);
         }
-
     }, [selectedCategory, websites]);
 
     const handleOpenWebsiteForm = () => {
@@ -45,7 +45,12 @@ const WebsiteList: React.FC<WebsiteListProps> = () => {
             <Box
                 sx={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(12, 1fr)',
+                    gridTemplateColumns: {
+                        xs: 'repeat(4, 1fr)',  
+                        sm: 'repeat(6, 1fr)',  
+                        md: 'repeat(8, 1fr)',  
+                        lg: 'repeat(12, 1fr)', 
+                    },
                     gap: '16px',
                     marginTop: '16px',
                     maxHeight: "85vh",
@@ -75,8 +80,11 @@ const WebsiteList: React.FC<WebsiteListProps> = () => {
                     right: "3%", 
                     zIndex: 1000,
                     height: "4em", 
-                    fontWeight: "bold"
-                }}>
+                    fontWeight: "bold",
+                    color: theme.palette.mode === 'dark' ? "white" : "black",
+                    backgroundColor: theme.palette.mode === 'dark' ? "#121212" : "white",
+                }}
+            >
                 Website
             </Button>
         </>

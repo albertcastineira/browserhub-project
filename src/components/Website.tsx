@@ -40,7 +40,7 @@ const Website: React.FC<WebsiteProps> = ({ categoryId, name, url, iconName, onDe
                 onContextMenu={handleClick}
                 sx={{
                     width: '100%',
-                    height: "7vw",
+                    height: "8em",
                     fontWeight: "bold",
                     paddingTop: 6,
                     color: "white"
