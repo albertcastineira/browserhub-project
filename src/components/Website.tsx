@@ -15,6 +15,7 @@ export interface WebsiteProps {
 }
 
 const Website: React.FC<WebsiteProps> = ({ categoryId, name, url, iconName, onDelete, onEdit }) => {
+
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
     const handleOpenNewTab = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,7 +40,7 @@ const Website: React.FC<WebsiteProps> = ({ categoryId, name, url, iconName, onDe
                 onContextMenu={handleClick}
                 sx={{
                     width: '100%',
-                    height: "12vh",
+                    height: "7vw",
                     fontWeight: "bold",
                     paddingTop: 6,
                     color: "white"
@@ -71,8 +72,9 @@ const Website: React.FC<WebsiteProps> = ({ categoryId, name, url, iconName, onDe
                     horizontal: 'center',
                 }}
             >
-                <MenuItem sx={{ fontWeight: "bold" }} disableRipple>
-                    <LanguageIcon sx={{ marginRight: 1 }} /> {name}
+                <MenuItem sx={{ fontWeight: "bold", marginX: 2 }} disableRipple>
+                    <Icon icon={iconName} width="20" height="20" />
+                    <p style={{marginLeft: "0.4em"}}>{name}</p>
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={() => { handleClose(); onEdit(); }} disableRipple>

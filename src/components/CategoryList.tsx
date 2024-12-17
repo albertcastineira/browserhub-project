@@ -10,9 +10,11 @@ interface CategoryListProps {
 const CategoryList: React.FC<CategoryListProps> = ({categories}) => (
     <Box sx={{marginBottom: 6}}>
         <Typography variant="h6" sx={{marginBottom: 2}}>Categories</Typography>
-        {categories.map((category) => (
-            <Category key={category.name} name={category.name} id={category.id} />
-        ))}
+        <Box sx={{maxHeight: "50vh", scrollBehavior: "auto", overflow: "auto"}}>
+            {categories.map((category) => (
+                <Category key={category.name} name={category.name} id={category.id} />
+            ))}
+        </Box>
     </Box>
 );
 

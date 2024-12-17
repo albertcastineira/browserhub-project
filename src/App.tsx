@@ -1,19 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { CssBaseline, ThemeProvider as MuiThemeProvider } from '@mui/material';
 import defaultTheme from './theme/theme';
 import { createTheme } from '@mui/material';
 import SettingsDialog from './components/SettingsDialog';
 import Layout from './components/Layout';
 import { CURRENT_VERSION_APP, LOCAL_STORAGE_KEYS } from './utils/constants';
-import { GlobalContextProvider } from './context/GlobalContext';
+import { GlobalContext, GlobalContextProvider } from './context/GlobalContext';
 import FirstTimeDialog from './components/FirstTimeDialog';
+import WebsiteForm from './components/WebsiteForm';
+import CategoryForm from './components/CategoryForm';
 
 
 function App() {
+    const { 
+        setFirstTimeDialogOpen, 
+        firstTimeDialogOpen, 
+    } = useContext(GlobalContext);
+
     const [primaryColor, setPrimaryColor] = useState(defaultTheme.palette.primary.main);
     const [mode, setMode] = useState(defaultTheme.palette.mode);
-    const [settingsOpen, setSettingsOpen] = useState(false);
-    const [firsTimeDialogOpen, setFirsTimeDialogOpen] = useState(false);
 
     useEffect(() => {
         const storedColor = localStorage.getItem(LOCAL_STORAGE_KEYS.THEME_COLOR);
@@ -35,18 +40,14 @@ function App() {
 
         const userRelease = localStorage.getItem(LOCAL_STORAGE_KEYS.RELEASE_VERSION);
         if(userRelease != CURRENT_VERSION_APP) {
-            setFirsTimeDialogOpen(!firsTimeDialogOpen);
+            setFirstTimeDialogOpen(!firstTimeDialogOpen);
             localStorage.setItem(LOCAL_STORAGE_KEYS.RELEASE_VERSION, CURRENT_VERSION_APP)
             
         }
-    }, [setPrimaryColor, setMode, firsTimeDialogOpen]);
-
-    const handleToggleSettingsDialog = () => {
-        setSettingsOpen(!settingsOpen);
-    };
+    }, [setPrimaryColor, setMode, firstTimeDialogOpen]);
 
     const handletoggleFirstTimeDialog = () => {
-        setFirsTimeDialogOpen(!firsTimeDialogOpen);
+        setFirstTimeDialogOpen(!firstTimeDialogOpen);
     }
 
     const handleChangePrimaryColor = (newColor: string) => {
@@ -73,20 +74,23 @@ function App() {
     return (
         <GlobalContextProvider>
             <MuiThemeProvider theme={currentTheme}>
-                <CssBaseline />
-                <Layout handleOpenSettings={handleToggleSettingsDialog} />
+                <CssBaseline enableColorScheme />
+                <Layout />
 
-                {/* Dialogs */}
+                {/* User Dialogs */}
                 <SettingsDialog
-                    open={settingsOpen}
                     mode={mode}
-                    onClose={handleToggleSettingsDialog}
                     onChangePrimaryColor={handleChangePrimaryColor}
                     onChangeThemeMode={handleChangeThemeMode}
                 />
                 <FirstTimeDialog 
-                    open={firsTimeDialogOpen}
                     onClose={handletoggleFirstTimeDialog}
+                />
+
+                {/* Form Dialogs */}
+                <WebsiteForm />
+                <CategoryForm 
+                    onSave={() => console.log("")}
                 />
             </MuiThemeProvider>
         </GlobalContextProvider>

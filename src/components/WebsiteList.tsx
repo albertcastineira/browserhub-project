@@ -11,7 +11,7 @@ interface WebsiteListProps {
 }
 
 const WebsiteList: React.FC<WebsiteListProps> = () => {
-    const { selectedCategory, websites } = useContext(GlobalContext);
+    const { selectedCategory, websites, websiteFormOpen, setWebsiteFormOpen, setWebsiteFormMode, setCurrentWebsiteId, deleteWebsite } = useContext(GlobalContext);
     const [filteredWebsites, setFilteredWebsites] = useState<WebsiteInterface[]>([]);
 
     useEffect(() => {
@@ -24,6 +24,22 @@ const WebsiteList: React.FC<WebsiteListProps> = () => {
 
     }, [selectedCategory, websites]);
 
+    const handleOpenWebsiteForm = () => {
+        setWebsiteFormMode("Create");
+        setCurrentWebsiteId("0");
+        setWebsiteFormOpen(!websiteFormOpen);
+    }
+
+    const handleEditWebsite = (websiteId: string) => {
+        setWebsiteFormMode("Edit");
+        setCurrentWebsiteId(websiteId);
+        setWebsiteFormOpen(!websiteFormOpen);
+    }
+
+    const handleDeleteWebsite = (websiteId: string) => {
+        deleteWebsite(websiteId);
+    }
+
     return (
         <>
             <Box
@@ -31,7 +47,9 @@ const WebsiteList: React.FC<WebsiteListProps> = () => {
                     display: 'grid',
                     gridTemplateColumns: 'repeat(12, 1fr)',
                     gap: '16px',
-                    marginTop: '16px'
+                    marginTop: '16px',
+                    maxHeight: "85vh",
+                    overflowY: "auto",
                 }}
             >
                 {filteredWebsites.map((website) => (
@@ -41,16 +59,24 @@ const WebsiteList: React.FC<WebsiteListProps> = () => {
                             iconName={getBrandFromUrl(website.url)}
                             name={website.name}
                             url={website.url}
-                            onEdit={() => console.log("")}
-                            onDelete={() => console.log("")}
+                            onEdit={() => handleEditWebsite(website.id)}
+                            onDelete={() => handleDeleteWebsite(website.id)}
                         />
                     </div>
                 ))}
             </Box>
-            <Button 
+            <Button
+                onClick={handleOpenWebsiteForm}
                 variant="contained" 
                 startIcon={<AddCircleIcon />}
-                sx={{position: "fixed", top: "90%", right: "3%", height: "4em", fontWeight: "bold"}}>
+                sx={{
+                    position: "fixed", 
+                    top: "90%", 
+                    right: "3%", 
+                    zIndex: 1000,
+                    height: "4em", 
+                    fontWeight: "bold"
+                }}>
                 Website
             </Button>
         </>

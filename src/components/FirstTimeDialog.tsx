@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from '@mui/material';
+import { GlobalContext } from '../context/GlobalContext';
 
 interface FirstTimeDialogProps {
-    open: boolean;
     onClose: () => void;
 }
 
-const FirstTimeDialog: React.FC<FirstTimeDialogProps> = ({ open, onClose }) => {
+const FirstTimeDialog: React.FC<FirstTimeDialogProps> = ({ onClose }) => {
+
+    const { firstTimeDialogOpen } = useContext(GlobalContext);
 
     return (
-        <Dialog open={open} onClose={onClose}>
+        <Dialog open={firstTimeDialogOpen} onClose={onClose}>
             <DialogTitle>Welcome to BrowserHub 0.0.1</DialogTitle>
             <DialogContent>
                 <DialogContentText sx={{ marginBottom: 1 }}>

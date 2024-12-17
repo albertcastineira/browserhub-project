@@ -1,26 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Switch } from '@mui/material';
 import { defaultThemePrimaryColors } from '../theme/theme';
 import DownloadIcon from '@mui/icons-material/Download';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import { GlobalContext } from '../context/GlobalContext';
 
 interface SettingsDialogProps {
-    open: boolean;
-    onClose: () => void;
     onChangePrimaryColor: (newColor: string) => void;
     mode: string | undefined;
     onChangeThemeMode: () => void;
 }
 
-const SettingsDialog: React.FC<SettingsDialogProps> = ({ open, onClose, onChangePrimaryColor, onChangeThemeMode, mode }) => {
+const SettingsDialog: React.FC<SettingsDialogProps> = ({ onChangePrimaryColor, onChangeThemeMode, mode }) => {
     const [isDarkModeEnabled, setIsDarkModeEnabled] = useState(mode === 'dark');
+    const { settingsOpen, setSettingsOpen } = useContext(GlobalContext);
+
 
     useEffect(() => {
         setIsDarkModeEnabled(mode === 'dark');
     }, [mode]);
 
+    const handleClose = () => {
+        setSettingsOpen(!settingsOpen);
+    }
+
     return (
-        <Dialog open={open} onClose={onClose}>
+        <Dialog open={settingsOpen} onClose={handleClose}>
             <DialogTitle sx={{borderBottom: 1}}>
                 Settings
             </DialogTitle>
@@ -41,7 +46,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({ open, onClose, onChange
                 <DialogContentText sx={{ marginTop: 3 }}>Select your theme:</DialogContentText>
                 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     {defaultThemePrimaryColors.map((color) => (
-                        <Box sx={{ textAlign: "center" }}>
+                        <Box key={color.color} sx={{ textAlign: "center" }}>
                             <Button
                                 key={color.name}
                                 onClick={() => onChangePrimaryColor(color.color)}
@@ -75,7 +80,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({ open, onClose, onChange
 
             </DialogContent>
             <DialogActions>
-                <Button color='secondary' onClick={onClose}>Close</Button>
+                <Button color='secondary' onClick={handleClose}>Close</Button>
             </DialogActions>
         </Dialog>
     );
