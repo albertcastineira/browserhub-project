@@ -12,7 +12,7 @@ interface SidebarProps {
     categories: Category[];
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings, categories }) => {
+const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings }) => {
     const { setCategoryFormOpen, categoryFormOpen, setCurrentCategoryId } = useContext(GlobalContext);
 
     const handleNewCategoryClick = () => {
@@ -30,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings, categories }) => 
                     BrowserHub
                 </Typography>
             </Stack>
-            <CategoryList categories={categories} />
+            <CategoryList />
             <Stack spacing={2}>
                 <Button onClick={() => handleNewCategoryClick()} variant="contained" sx={{height: "4em", fontWeight: "bold"}} startIcon={<AddCircleIcon />} >
                     New category

@@ -89,9 +89,7 @@ function App() {
 
                 {/* Form Dialogs */}
                 <WebsiteForm />
-                <CategoryForm 
-                    onSave={() => console.log("")}
-                />
+                <CategoryForm />
             </MuiThemeProvider>
         </GlobalContextProvider>
     );

@@ -20,7 +20,7 @@ const CategoryForm: React.FC = () => {
     const [currentCategory, setCurrentCategory] = useState<Category>(EMPTY_CATEGORY);
 
     useEffect(() => {
-        if (currentCategoryId) {
+        if (currentCategoryId != "0") {
             const category = findCategory(currentCategoryId);
             setCurrentCategory(category || EMPTY_CATEGORY);
         } else {

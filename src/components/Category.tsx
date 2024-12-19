@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Box, Button, Divider, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Menu, MenuItem } from '@mui/material';
 import { GlobalContext } from '../context/GlobalContext';
 import LabelIcon from '@mui/icons-material/Label';
 import EditIcon from '@mui/icons-material/Edit';
@@ -50,18 +50,15 @@ const Category: React.FC<CategoryProps> = ({ name, id, onDelete, onEdit }) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
                 anchorOrigin={{
-                    vertical: 'top',
+                    vertical: 'center',
                     horizontal: 'center',
                 }}
                 transformOrigin={{
-                    vertical: 'top',
+                    vertical: 'center',
                     horizontal: 'center',
                 }}
+                sx={{ marginTop: 8 }}
             >
-                <MenuItem sx={{ fontWeight: "bold", marginX: 2 }} disableRipple>
-                    {name}
-                </MenuItem>
-                <Divider />
                 <MenuItem onClick={() => { handleClose(); onEdit(); }} disableRipple>
                     <EditIcon sx={{ marginRight: 1 }} /> Edit
                 </MenuItem>

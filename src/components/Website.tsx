@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
-import { Box, Button, Divider, Menu, MenuItem } from "@mui/material";
+import { Box, Button, Menu, MenuItem } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -64,19 +64,14 @@ const Website: React.FC<WebsiteProps> = ({ categoryId, name, url, iconName, onDe
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
                 anchorOrigin={{
-                    vertical: 'top',
+                    vertical: 'center',
                     horizontal: 'center',
                 }}
                 transformOrigin={{
-                    vertical: 'top',
+                    vertical: 'center',
                     horizontal: 'center',
                 }}
             >
-                <MenuItem sx={{ fontWeight: "bold", marginX: 2 }} disableRipple>
-                    <Icon icon={iconName} width="20" height="20" />
-                    <p style={{marginLeft: "0.4em"}}>{name}</p>
-                </MenuItem>
-                <Divider />
                 <MenuItem onClick={() => { handleClose(); onEdit(); }} disableRipple>
                     <EditIcon sx={{ marginRight: 1 }} /> Edit
                 </MenuItem>

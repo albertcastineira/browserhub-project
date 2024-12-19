@@ -31,9 +31,9 @@ interface GlobalContextValue {
     createWebsite: (website: Website) => void
     updateWebsite: (id: string, updatedWebsite: Partial<Website>) => void
     deleteWebsite: (id: string) => void
-    findCategory: (id: string) => Website | undefined;
+    findCategory: (id: string) => Category | undefined;
     createCategory: (category: Category) => void
-    updateCategory: (id: string, updatedWebsite: Partial<Website>) => void
+    updateCategory: (id: string, updatedCategory: Partial<Category>) => void
     deleteCategory: (id: string) => void
 }
 
@@ -131,7 +131,7 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     const deleteCategory = (id: string) =>  {
-        setWebsites((prevCategories) => prevCategories.filter((category) => category.id !== id));
+        setCategories((prevCategories) => prevCategories.filter((category) => category.id !== id));
     }
 
 
@@ -175,7 +175,6 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
             categories,
             currentCategoryId,
             websites,
-            currentWebsiteId,
             selectedCategory,
             filteredWebsites,
             settingsOpen,
@@ -184,7 +183,6 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
             websiteFormMode,
             categoryFormOpen,
             categoryFormMode,
-            currentWebsiteId,
         ]
     );
 
