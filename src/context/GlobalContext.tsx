@@ -20,6 +20,8 @@ interface GlobalContextValue {
     setSettingsOpen: (status: boolean) => void
     firstTimeDialogOpen: boolean
     setFirstTimeDialogOpen: (status: boolean) => void
+    helpDialogOpen: boolean,
+    setHelpDialogOpen: (status: boolean) => void,
     websiteFormOpen: boolean
     setWebsiteFormOpen: (status: boolean) => void
     websiteFormMode: string
@@ -50,6 +52,8 @@ export const GlobalContext = createContext<GlobalContextValue>({
     setCurrentWebsiteId: () => {},
     setSelectedCategory: () => {},
     filteredWebsites: [],
+    helpDialogOpen: false,
+    setHelpDialogOpen: () => {},
     settingsOpen: false,
     setSettingsOpen: () => {},
     firstTimeDialogOpen: false,
@@ -93,6 +97,7 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
     const [websites, setWebsites] = useState<Website[]>(defaultWebsitesValue);
     const [currentWebsiteId, setCurrentWebsiteId] = useState<string>("0");
     const [selectedCategory, setSelectedCategory] = useState<string>(categories[0]?.id ?? "1");
+    const [helpDialogOpen, setHelpDialogOpen] = useState(false);
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [firstTimeDialogOpen, setFirstTimeDialogOpen] = useState(false);
     const [websiteFormOpen, setWebsiteFormOpen] = useState(false);
@@ -176,6 +181,8 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
             selectedCategory,
             setSelectedCategory,
             filteredWebsites,
+            helpDialogOpen,
+            setHelpDialogOpen,
             settingsOpen,
             setSettingsOpen,
             firstTimeDialogOpen,
@@ -202,6 +209,7 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
             currentCategoryId,
             websites,
             selectedCategory,
+            helpDialogOpen,
             filteredWebsites,
             settingsOpen,
             firstTimeDialogOpen,

@@ -9,6 +9,7 @@ import {
     DialogTitle,
     Divider,
     Switch,
+    Typography,
 } from '@mui/material';
 import { defaultThemePrimaryColors } from '../theme/theme';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -16,6 +17,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { GlobalContext } from '../context/GlobalContext';
 import { downloadStoredBrowserData, loadStoredBrowserData } from '../utils/helpers';
 import { LOCAL_STORAGE_KEYS } from '../utils/constants';
+import { DEFAULT_CATEGORIES, DEFAULT_WEBSITES } from '../context/defaultValues';
 
 interface SettingsDialogProps {
     onChangePrimaryColor: (newColor: string) => void;
@@ -80,6 +82,11 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
         input.click();
     };
     
+    const handleResetData = () => {
+        setCategories(DEFAULT_CATEGORIES);
+        setWebsites(DEFAULT_WEBSITES);
+        localStorage.setItem(LOCAL_STORAGE_KEYS.STORED_DATA, JSON.stringify({ categories: DEFAULT_CATEGORIES, websites: DEFAULT_WEBSITES }));
+    }
     
 
     return (
@@ -109,13 +116,18 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
                                 onClick={() => onChangePrimaryColor(color.color)}
                                 sx={{
                                     backgroundColor: color.color,
-                                    height: 20,
+                                    color: 'white',
+                                    px: 4,
+                                    py: 1,
+                                    height: 30,
                                     width: 5,
                                     margin: 1,
-                                    borderRadius: '10px',
+                                    borderRadius: '5px',
                                 }}
-                            />
-                            <DialogContentText>{color.name}</DialogContentText>
+                            >
+                                {color.name}
+                            </Button>
+                            
                         </Box>
                     ))}
                 </div>
@@ -142,6 +154,20 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
                     >
                         Export
                     </Button>
+                </Box>
+
+                <Box sx={{marginTop: 3, borderRadius: 2}}>
+                    <Typography variant="h6" color="red">
+                        Danger zone
+                    </Typography>
+                    <Button
+                            variant="outlined"
+                            onClick={() => handleResetData()}
+                            sx={{marginTop: 2}}
+                            color='secondary'
+                        >
+                            Reset default
+                        </Button>
                 </Box>
 
             </DialogContent>

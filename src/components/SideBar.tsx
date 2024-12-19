@@ -6,6 +6,7 @@ import { Category } from "../domain/interfaces/Category.interface";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { GlobalContext } from "../context/GlobalContext";
 import { CURRENT_VERSION_APP } from "../utils/constants";
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 interface SidebarProps {
     handleOpenSettings: () => void;
@@ -13,7 +14,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings }) => {
-    const { setCategoryFormOpen, categoryFormOpen, setCurrentCategoryId } = useContext(GlobalContext);
+    const { setCategoryFormOpen, categoryFormOpen, setCurrentCategoryId, setHelpDialogOpen } = useContext(GlobalContext);
 
     const handleNewCategoryClick = () => {
         setCurrentCategoryId("");
@@ -40,6 +41,9 @@ const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings }) => {
                 </Button>
                 <Button variant="outlined" startIcon={<SettingsIcon fontSize="small" />} onClick={handleOpenSettings}>
                     Settings
+                </Button>
+                <Button variant="text" startIcon={<HelpOutlineIcon fontSize="small" />} onClick={() => setHelpDialogOpen(true)}>
+                    Help
                 </Button>
             </Stack>
         </Box>

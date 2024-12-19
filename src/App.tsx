@@ -9,6 +9,7 @@ import { GlobalContextProvider } from './context/GlobalContext';
 import FirstTimeDialog from './components/FirstTimeDialog';
 import WebsiteForm from './components/WebsiteForm';
 import CategoryForm from './components/CategoryForm';
+import HelpDialog from './components/HelpDialog';
 
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
                     onChangePrimaryColor={handleChangePrimaryColor}
                     onChangeThemeMode={handleChangeThemeMode}
                 />
+                <HelpDialog />
                 <FirstTimeDialog />
 
                 {/* Form Dialogs */}
