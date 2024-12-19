@@ -1,7 +1,8 @@
+import { Category } from "../domain/interfaces/Category.interface";
 import { Website } from "../domain/interfaces/Website.interface";
 
 export const DEFAULT_CATEGORIES = [
-    { id: "0", name: "Default / All" },
+    { id: "0", name: "All websites" },
     { id: "1", name: "Social Media" },
     { id: "2", name: "Entertainment" },
     { id: "3", name: "Tools" },
@@ -63,4 +64,9 @@ export const EMPTY_WEBSITE: Website = {
     name: "",
     url: "",
     categoryId: "",
+};
+
+export const EMPTY_CATEGORY: Category = {
+    id: "",
+    name: "",
 };

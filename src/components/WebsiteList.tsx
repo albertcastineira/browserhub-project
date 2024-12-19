@@ -57,18 +57,24 @@ const WebsiteList: React.FC<WebsiteListProps> = () => {
                     overflowY: "auto",
                 }}
             >
-                {filteredWebsites.map((website) => (
-                    <div key={website.url} style={{ gridColumn: 'span 2' }}>
-                        <Website
-                            categoryId={website.categoryId}
-                            iconName={getBrandFromUrl(website.url)}
-                            name={website.name}
-                            url={website.url}
-                            onEdit={() => handleEditWebsite(website.id)}
-                            onDelete={() => handleDeleteWebsite(website.id)}
-                        />
+                {filteredWebsites.length > 0 ? (
+                    filteredWebsites.map((website) => (
+                        <div key={website.url} style={{ gridColumn: 'span 2' }}>
+                            <Website
+                                categoryId={website.categoryId}
+                                iconName={getBrandFromUrl(website.url)}
+                                name={website.name}
+                                url={website.url}
+                                onEdit={() => handleEditWebsite(website.id)}
+                                onDelete={() => handleDeleteWebsite(website.id)}
+                            />
+                        </div>
+                    ))
+                ) : (
+                    <div style={{ gridColumn: 'span 12', textAlign: 'center', marginTop: '20px' }}>
+                        No websites found.
                     </div>
-                ))}
+                )}
             </Box>
             <Button
                 onClick={handleOpenWebsiteForm}

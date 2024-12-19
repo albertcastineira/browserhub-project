@@ -8,8 +8,10 @@ import ImageIcon from '@mui/icons-material/Image';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
+import { useTheme } from '@emotion/react';
 
 export default function SearchBar() {
+  const theme = useTheme();
   const [searchType, setSearchType] = useState('Default');
   const [query, setQuery] = useState('');
 
@@ -51,7 +53,10 @@ export default function SearchBar() {
       onSubmit={handleSearch}
     >
       <InputBase
-        sx={{ ml: 1, flex: 1 }}
+        sx={{ 
+          ml: 1, flex: 1 
+          
+        }}
         placeholder={`${searchType} search ...`}
         inputProps={{ 'aria-label': `search google ${searchType}` }}
         value={query}

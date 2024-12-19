@@ -13,7 +13,12 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings, categories }) => {
-    const { setCategoryFormOpen, categoryFormOpen } = useContext(GlobalContext);
+    const { setCategoryFormOpen, categoryFormOpen, setCurrentCategoryId } = useContext(GlobalContext);
+
+    const handleNewCategoryClick = () => {
+        setCurrentCategoryId("0");
+        setCategoryFormOpen(!categoryFormOpen);
+    }
 
     return(
         <Box sx={{ width: "100%" }} p={2}>
@@ -27,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings, categories }) => 
             </Stack>
             <CategoryList categories={categories} />
             <Stack spacing={2}>
-                <Button onClick={() => setCategoryFormOpen(!categoryFormOpen)} variant="contained" sx={{height: "4em", fontWeight: "bold"}} startIcon={<AddCircleIcon />} >
+                <Button onClick={() => handleNewCategoryClick()} variant="contained" sx={{height: "4em", fontWeight: "bold"}} startIcon={<AddCircleIcon />} >
                     New category
                 </Button>
                 <Button variant="outlined" startIcon={<SettingsIcon fontSize="small" />} onClick={handleOpenSettings}>

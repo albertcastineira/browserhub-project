@@ -5,8 +5,10 @@ import { DEFAULT_CATEGORIES, DEFAULT_CATEGORY_FORM_MODE, DEFAULT_WEBSITE_FORM_MO
 
 interface GlobalContextValue {
     categories: Category[]
+    currentCategoryId: string
+    setCurrentCategoryId: (id: string) => void,
     websites: Website[]
-    currentWebsiteId: string,
+    currentWebsiteId: string
     setCurrentWebsiteId: (id: string) => void,
     selectedCategory: string
     setCategories: (categories: Category[]) => void
@@ -29,10 +31,16 @@ interface GlobalContextValue {
     createWebsite: (website: Website) => void
     updateWebsite: (id: string, updatedWebsite: Partial<Website>) => void
     deleteWebsite: (id: string) => void
+    findCategory: (id: string) => Website | undefined;
+    createCategory: (category: Category) => void
+    updateCategory: (id: string, updatedWebsite: Partial<Website>) => void
+    deleteCategory: (id: string) => void
 }
 
 export const GlobalContext = createContext<GlobalContextValue>({
     categories: [],
+    currentCategoryId: "0",
+    setCurrentCategoryId: () => {},
     websites: [],
     selectedCategory: "0",
     setCategories: () => {},
@@ -57,10 +65,15 @@ export const GlobalContext = createContext<GlobalContextValue>({
     createWebsite: () => {},
     updateWebsite: () => {},
     deleteWebsite: () => {},
+    findCategory: () => undefined,
+    createCategory: () => {},
+    updateCategory: () => {},
+    deleteCategory: () => {},
 });
 
 export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [categories, setCategories] = useState<Category[]>(DEFAULT_CATEGORIES);
+    const [currentCategoryId, setCurrentCategoryId] = useState<string>("0");
     const [websites, setWebsites] = useState<Website[]>(DEFAULT_WEBSITES);
     const [currentWebsiteId, setCurrentWebsiteId] = useState<string>("0");
     const [selectedCategory, setSelectedCategory] = useState<string>(categories[0]?.id ?? "1");
@@ -71,7 +84,6 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
     const [categoryFormOpen, setCategoryFormOpen] = useState(false);
     const [categoryFormMode, setCategoryFormMode] = useState(DEFAULT_CATEGORY_FORM_MODE);
 
-    // Memoize the filtered websites computation
     const filteredWebsites = useMemo(() => 
         selectedCategory !== "0"
             ? websites.filter(website => website.categoryId === selectedCategory)
@@ -79,11 +91,11 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
         [selectedCategory, websites]
     );
 
+    
+    // Websites
     const findWebsite = (id: string): Website | undefined => {
         return websites.find((website) => website.id === id);
     };
-    
-    
 
     const createWebsite = (website: Website) => {
         setWebsites((prevWebsites) => [...prevWebsites, website]);
@@ -101,15 +113,38 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
         setWebsites((prevWebsites) => prevWebsites.filter((website) => website.id !== id));
     };
 
+    // Categories
+    const findCategory = (id: string): Category | undefined => {
+        return categories.find((category) => category.id === id);
+    }
+
+    const createCategory = (category: Category) => {
+        setCategories((prevCategories) => [...prevCategories, category]);
+    }
+
+    const updateCategory = (id: string, updatedCategory: Partial<Category>) => {
+        setCategories((prevCategories) =>
+            prevCategories.map((category) =>
+                category.id === id ? { ...category, ...updatedCategory } : category
+            )
+        );
+    }
+
+    const deleteCategory = (id: string) =>  {
+        setWebsites((prevCategories) => prevCategories.filter((category) => category.id !== id));
+    }
+
 
 
     // Memoize the context value
     const contextValue = useMemo(
         () => ({
             categories,
+            currentCategoryId,
             websites,
             currentWebsiteId,
             setCategories,
+            setCurrentCategoryId,
             setWebsites,
             setCurrentWebsiteId,
             selectedCategory,
@@ -131,9 +166,14 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
             createWebsite,
             updateWebsite,
             deleteWebsite,
+            findCategory,
+            createCategory,
+            updateCategory,
+            deleteCategory,
         }),
         [
             categories,
+            currentCategoryId,
             websites,
             currentWebsiteId,
             selectedCategory,
