@@ -1,9 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Switch } from '@mui/material';
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Divider,
+    Switch,
+} from '@mui/material';
 import { defaultThemePrimaryColors } from '../theme/theme';
 import DownloadIcon from '@mui/icons-material/Download';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { GlobalContext } from '../context/GlobalContext';
+import { downloadStoredBrowserData, loadStoredBrowserData } from '../utils/helpers';
+import { LOCAL_STORAGE_KEYS } from '../utils/constants';
 
 interface SettingsDialogProps {
     onChangePrimaryColor: (newColor: string) => void;
@@ -11,10 +23,13 @@ interface SettingsDialogProps {
     onChangeThemeMode: () => void;
 }
 
-const SettingsDialog: React.FC<SettingsDialogProps> = ({ onChangePrimaryColor, onChangeThemeMode, mode }) => {
+const SettingsDialog: React.FC<SettingsDialogProps> = ({
+    onChangePrimaryColor,
+    onChangeThemeMode,
+    mode,
+}) => {
     const [isDarkModeEnabled, setIsDarkModeEnabled] = useState(mode === 'dark');
-    const { settingsOpen, setSettingsOpen } = useContext(GlobalContext);
-
+    const { settingsOpen, setSettingsOpen, setCategories, setWebsites } = useContext(GlobalContext);
 
     useEffect(() => {
         setIsDarkModeEnabled(mode === 'dark');
@@ -22,15 +37,57 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({ onChangePrimaryColor, o
 
     const handleClose = () => {
         setSettingsOpen(!settingsOpen);
-    }
+    };
+
+    const handleFileChange = (event: Event) => {
+        const input = event.target as HTMLInputElement;
+        if (input.files && input.files.length > 0) {
+            const file = input.files[0];
+            console.log('Selected file:', file);
+    
+            try {
+                loadStoredBrowserData(file);
+
+                const storedData = localStorage.getItem(LOCAL_STORAGE_KEYS.STORED_DATA);
+                if (!storedData) {
+                    console.warn("No data found in local storage.");
+                    return;
+                }
+    
+                const parsedData = JSON.parse(storedData);
+    
+                // Validate the structure of the parsed data
+                if (parsedData && parsedData.categories && parsedData.websites) {
+                    setCategories(parsedData.categories);
+                    setWebsites(parsedData.websites);
+                    localStorage.setItem(LOCAL_STORAGE_KEYS.STORED_DATA, JSON.stringify(parsedData));
+                } else {
+                    console.error("Invalid data format in local storage.");
+                }
+            } catch (error) {
+                console.error("Error handling file change:", error);
+            }
+        } else {
+            console.warn("No file selected.");
+        }
+    };
+    
+    const handleImportClick = () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.onchange = (event) => handleFileChange(event);
+        input.click();
+    };
+    
+    
 
     return (
         <Dialog open={settingsOpen} onClose={handleClose}>
-            <DialogTitle sx={{borderBottom: 1}}>
+            <DialogTitle sx={{ borderBottom: 1 }}>
                 Settings
             </DialogTitle>
             <DialogContent>
-
                 <DialogContentText>
                     <h4>Theme</h4>
                 </DialogContentText>
@@ -52,13 +109,13 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({ onChangePrimaryColor, o
                                 onClick={() => onChangePrimaryColor(color.color)}
                                 sx={{
                                     backgroundColor: color.color,
-                                    height: 30,
+                                    height: 20,
                                     width: 5,
                                     margin: 1,
-                                    borderRadius: '10%',
+                                    borderRadius: '10px',
                                 }}
                             />
-                             <DialogContentText>{color.name}</DialogContentText>
+                            <DialogContentText>{color.name}</DialogContentText>
                         </Box>
                     ))}
                 </div>
@@ -70,10 +127,19 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({ onChangePrimaryColor, o
                 </DialogContentText>
 
                 <Box>
-                    <Button startIcon={<FileUploadIcon />} variant="contained" sx={{ marginRight: 2 }}>
+                    <Button
+                        startIcon={<FileUploadIcon />}
+                        variant="contained"
+                        onClick={handleImportClick}
+                        sx={{ marginRight: 2 }}
+                    >
                         Import
                     </Button>
-                    <Button startIcon={<DownloadIcon />} variant="outlined">
+                    <Button
+                        onClick={() => downloadStoredBrowserData()}
+                        startIcon={<DownloadIcon />}
+                        variant="outlined"
+                    >
                         Export
                     </Button>
                 </Box>

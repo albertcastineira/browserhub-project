@@ -46,6 +46,7 @@ const Website: React.FC<WebsiteProps> = ({ categoryId, name, url, iconName, onDe
                     color: "white"
                    
                 }}
+                style={{ textTransform: "none" }}
                 disableRipple
             >
                 <Box sx={{position: "absolute", top: "23px", zIndex: 10, width: "100%"}}>

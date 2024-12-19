@@ -20,7 +20,7 @@ const CategoryForm: React.FC = () => {
     const [currentCategory, setCurrentCategory] = useState<Category>(EMPTY_CATEGORY);
 
     useEffect(() => {
-        if (currentCategoryId != "0") {
+        if (currentCategoryId) {
             const category = findCategory(currentCategoryId);
             setCurrentCategory(category || EMPTY_CATEGORY);
         } else {
@@ -41,7 +41,7 @@ const CategoryForm: React.FC = () => {
     const handleSave = () => {
         const updatedCategory = { ...currentCategory, name: currentCategory.name.trim() };
 
-        if (updatedCategory.id !== "0") {
+        if (updatedCategory.id) {
             updateCategory(updatedCategory.id, updatedCategory);
         } else {
             const newId = (categories.length > 0 ? categories[categories.length - 1].id + 1 : 1);

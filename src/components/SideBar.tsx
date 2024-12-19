@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
-import LanguageIcon from '@mui/icons-material/Language';
 import CategoryList from "./CategoryList";
 import { Category } from "../domain/interfaces/Category.interface";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { GlobalContext } from "../context/GlobalContext";
+import { CURRENT_VERSION_APP } from "../utils/constants";
 
 interface SidebarProps {
     handleOpenSettings: () => void;
@@ -16,19 +16,22 @@ const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings }) => {
     const { setCategoryFormOpen, categoryFormOpen, setCurrentCategoryId } = useContext(GlobalContext);
 
     const handleNewCategoryClick = () => {
-        setCurrentCategoryId("0");
+        setCurrentCategoryId("");
         setCategoryFormOpen(!categoryFormOpen);
     }
 
     return(
         <Box sx={{ width: "100%" }} p={2}>
-            <Stack alignItems="center" direction="row" gap={0.2} sx={{ marginBottom: 4 }}>
-                <LanguageIcon
-                    sx={{ backgroundColor: "#311b92", color: "white", marginRight: 1, padding: 0.4, borderRadius: 1 }}
-                />
+            <Stack alignItems="center" direction="row" gap={0.2} sx={{ marginBottom: 4, display: "flex" }}>
                 <Typography variant="h5" fontWeight={"bold"}>
-                    BrowserHub
+                    Browser
                 </Typography>
+                <Typography variant="h5" fontWeight={"bold"} sx={{ color: "primary.main" }}>
+                    Hub
+                </Typography>
+                <Box sx={{marginLeft: 1, border: 1, borderRadius: "5px", paddingX: 1, fontSize:"0.8em", fontWeight: "bold", color: "primary.main", borderColor: "primary.main"}}>
+                    {CURRENT_VERSION_APP}
+                </Box>
             </Stack>
             <CategoryList />
             <Stack spacing={2}>

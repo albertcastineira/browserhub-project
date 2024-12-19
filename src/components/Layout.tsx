@@ -19,9 +19,9 @@ const Layout: React.FC = () => {
       <Box
         sx={{
           width: "100%",
+          minHeight: "100vh",
           [theme.breakpoints.up("md")]: {
             width: "300px",
-            minHeight: "220vh",
           },
           boxShadow: 1,
         }}

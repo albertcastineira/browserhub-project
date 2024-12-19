@@ -1,21 +1,17 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { CssBaseline, ThemeProvider as MuiThemeProvider } from '@mui/material';
 import defaultTheme from './theme/theme';
 import { createTheme } from '@mui/material';
 import SettingsDialog from './components/SettingsDialog';
 import Layout from './components/Layout';
-import { CURRENT_VERSION_APP, LOCAL_STORAGE_KEYS } from './utils/constants';
-import { GlobalContext, GlobalContextProvider } from './context/GlobalContext';
+import { LOCAL_STORAGE_KEYS } from './utils/constants';
+import { GlobalContextProvider } from './context/GlobalContext';
 import FirstTimeDialog from './components/FirstTimeDialog';
 import WebsiteForm from './components/WebsiteForm';
 import CategoryForm from './components/CategoryForm';
 
 
 function App() {
-    const { 
-        setFirstTimeDialogOpen, 
-        firstTimeDialogOpen, 
-    } = useContext(GlobalContext);
 
     const [primaryColor, setPrimaryColor] = useState(defaultTheme.palette.primary.main);
     const [mode, setMode] = useState(defaultTheme.palette.mode);
@@ -38,17 +34,8 @@ function App() {
             localStorage.setItem(LOCAL_STORAGE_KEYS.THEME_MODE, defaultMode);
         }
 
-        const userRelease = localStorage.getItem(LOCAL_STORAGE_KEYS.RELEASE_VERSION);
-        if(userRelease != CURRENT_VERSION_APP) {
-            setFirstTimeDialogOpen(!firstTimeDialogOpen);
-            localStorage.setItem(LOCAL_STORAGE_KEYS.RELEASE_VERSION, CURRENT_VERSION_APP)
-            
-        }
-    }, [setPrimaryColor, setMode, firstTimeDialogOpen]);
-
-    const handletoggleFirstTimeDialog = () => {
-        setFirstTimeDialogOpen(!firstTimeDialogOpen);
-    }
+        
+    }, [setPrimaryColor, setMode]);
 
     const handleChangePrimaryColor = (newColor: string) => {
         setPrimaryColor(newColor);
@@ -83,9 +70,7 @@ function App() {
                     onChangePrimaryColor={handleChangePrimaryColor}
                     onChangeThemeMode={handleChangeThemeMode}
                 />
-                <FirstTimeDialog 
-                    onClose={handletoggleFirstTimeDialog}
-                />
+                <FirstTimeDialog />
 
                 {/* Form Dialogs */}
                 <WebsiteForm />

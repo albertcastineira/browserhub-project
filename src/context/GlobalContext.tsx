@@ -2,6 +2,7 @@ import React, { createContext, useState, useMemo } from 'react';
 import { Category } from '../domain/interfaces/Category.interface';
 import { Website } from '../domain/interfaces/Website.interface';
 import { DEFAULT_CATEGORIES, DEFAULT_CATEGORY_FORM_MODE, DEFAULT_WEBSITE_FORM_MODE, DEFAULT_WEBSITES } from './defaultValues';
+import { LOCAL_STORAGE_KEYS } from '../utils/constants';
 
 interface GlobalContextValue {
     categories: Category[]
@@ -71,10 +72,25 @@ export const GlobalContext = createContext<GlobalContextValue>({
     deleteCategory: () => {},
 });
 
+
 export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [categories, setCategories] = useState<Category[]>(DEFAULT_CATEGORIES);
-    const [currentCategoryId, setCurrentCategoryId] = useState<string>("0");
-    const [websites, setWebsites] = useState<Website[]>(DEFAULT_WEBSITES);
+
+    let defaultCategoriesValue = DEFAULT_CATEGORIES;
+    let defaultWebsitesValue = DEFAULT_WEBSITES;
+
+    try {
+        if(LOCAL_STORAGE_KEYS.STORED_DATA in localStorage) {
+            defaultCategoriesValue = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.STORED_DATA) || "{}").categories;
+            defaultWebsitesValue = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.STORED_DATA) || "{}").websites;
+        }
+    } catch (error) {
+        console.error("Error parsing JSON from localStorage", error);
+    }
+
+
+    const [categories, setCategories] = useState<Category[]>(defaultCategoriesValue);
+    const [currentCategoryId, setCurrentCategoryId] = useState<string>("");
+    const [websites, setWebsites] = useState<Website[]>(defaultWebsitesValue);
     const [currentWebsiteId, setCurrentWebsiteId] = useState<string>("0");
     const [selectedCategory, setSelectedCategory] = useState<string>(categories[0]?.id ?? "1");
     const [settingsOpen, setSettingsOpen] = useState(false);
@@ -99,6 +115,7 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const createWebsite = (website: Website) => {
         setWebsites((prevWebsites) => [...prevWebsites, website]);
+        storeOnLocalStorageAsJSON();
     };
 
     const updateWebsite = (id: string, updatedWebsite: Partial<Website>) => {
@@ -107,10 +124,12 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
                 website.id === id ? { ...website, ...updatedWebsite } : website
             )
         );
+        storeOnLocalStorageAsJSON();
     };
 
     const deleteWebsite = (id: string) => {
         setWebsites((prevWebsites) => prevWebsites.filter((website) => website.id !== id));
+        storeOnLocalStorageAsJSON();
     };
 
     // Categories
@@ -120,6 +139,7 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const createCategory = (category: Category) => {
         setCategories((prevCategories) => [...prevCategories, category]);
+        storeOnLocalStorageAsJSON();
     }
 
     const updateCategory = (id: string, updatedCategory: Partial<Category>) => {
@@ -128,10 +148,16 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
                 category.id === id ? { ...category, ...updatedCategory } : category
             )
         );
+        storeOnLocalStorageAsJSON();
     }
 
     const deleteCategory = (id: string) =>  {
         setCategories((prevCategories) => prevCategories.filter((category) => category.id !== id));
+        storeOnLocalStorageAsJSON();
+    }
+
+    const storeOnLocalStorageAsJSON = () => {
+        localStorage.setItem(LOCAL_STORAGE_KEYS.STORED_DATA, JSON.stringify({ categories, websites }));
     }
 
 
@@ -185,6 +211,8 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
             categoryFormMode,
         ]
     );
+
+    localStorage.setItem(LOCAL_STORAGE_KEYS.STORED_DATA, JSON.stringify({ categories, websites }));
 
     return (
         <GlobalContext.Provider value={contextValue}>

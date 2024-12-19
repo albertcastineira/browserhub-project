@@ -50,8 +50,6 @@ const WebsiteForm: React.FC = () => {
       [field]: value,
     }));
   };
-  
-  
 
   const handleSave = () => {
     if (currentWebsiteId !== "0") {

@@ -33,13 +33,14 @@ const Category: React.FC<CategoryProps> = ({ name, id, onDelete, onEdit }) => {
 
     return (
         <>
-            <Box>
+            <Box sx={{width: "100%"}}>
                 <Button
                     onClick={() => setSelectedCategory(id)}
                     onContextMenu={handleClick}
                     variant={categoryActive}
-                    sx={{ textAlign: "left", fontWeight: fontWeight }}
+                    sx={{justifyContent: "flex-start", fontWeight: fontWeight, width: "100%", textTransform: "none" }}
                     startIcon={<LabelIcon />}
+                    style={{ textTransform: "none" }}
                 >
                     {name}
                 </Button>
