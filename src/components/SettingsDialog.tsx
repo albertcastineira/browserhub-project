@@ -166,7 +166,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
                             sx={{marginTop: 2}}
                             color='secondary'
                         >
-                            Reset default
+                            Reset data to default
                         </Button>
                 </Box>
 

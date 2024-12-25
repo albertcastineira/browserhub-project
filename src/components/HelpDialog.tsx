@@ -15,7 +15,7 @@ const HelpDialog: React.FC = () => {
             <DialogTitle>HELP</DialogTitle>
             <DialogContent>
             <DialogContentText>
-                    <h4>Searchbar</h4>
+                    <h3>Searchbar</h3>
                 </DialogContentText>
                 <DialogContentText>
                     On the top of the screen there is a searchbar where you can search on google using a selected option. 
@@ -23,7 +23,7 @@ const HelpDialog: React.FC = () => {
                 </DialogContentText>
 
                 <DialogContentText>
-                    <h4>Categories</h4>
+                    <h3>Categories</h3>
                 </DialogContentText>
                 <DialogContentText>
                     On the left sidebar there is a list of categories. You can create, edit and delete categories by right clicking on them.
@@ -31,21 +31,21 @@ const HelpDialog: React.FC = () => {
                 </DialogContentText>
 
                 <DialogContentText>
-                    <h4>Websites</h4>
+                    <h3>Websites</h3>
                 </DialogContentText>
                 <DialogContentText>
                     On the bottom right corner of the screen there is a button to add a new website. You can also edit and delete websites by right clicking on them.
                 </DialogContentText>
 
                 <DialogContentText>
-                    <h4>Theme and customization</h4>
+                    <h3>Theme and customization</h3>
                 </DialogContentText>
                 <DialogContentText>
                     On the settings tab you can change the main color theme and the theme mode (light or dark).
                 </DialogContentText>
 
                 <DialogContentText>
-                    <h4>Data persistance</h4>
+                    <h3>Data persistance</h3>
                 </DialogContentText>
                 <DialogContentText>
                     BrowserHub uses localStorage for data persistance. This means that your data will be saved on your browser and will be available even if you close the tab or the browser.
@@ -53,7 +53,7 @@ const HelpDialog: React.FC = () => {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => setHelpDialogOpen(false)} color="primary">
+                <Button onClick={() => setHelpDialogOpen(false)} color="secondary">
                     Close
                 </Button>
             </DialogActions>
