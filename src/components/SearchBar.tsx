@@ -58,6 +58,8 @@ export default function SearchBar() {
         placeholder={`${searchType} search ...`}
         inputProps={{ 'aria-label': `search google ${searchType}` }}
         value={query}
+        autoComplete='off'
+        autoCorrect='off'
         onChange={(e) => setQuery(e.target.value)}
       />
       <Tabs

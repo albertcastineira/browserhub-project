@@ -76,6 +76,7 @@ const WebsiteForm: React.FC = () => {
             placeholder="My Website"
             value={currentWebsite.name}
             onChange={handleChange("name")}
+            autoComplete='off'
             slotProps={{
               input: {
                 startAdornment: (
@@ -91,6 +92,7 @@ const WebsiteForm: React.FC = () => {
             placeholder="https://my-website.url.com/"
             value={currentWebsite.url}
             onChange={handleChange("url")}
+            autoComplete='off'
             slotProps={{
               input: {
                 startAdornment: (

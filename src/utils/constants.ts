@@ -1,6 +1,6 @@
 const APP_NAME: string = "BROWSER_HUB";
-export const CURRENT_VERSION_APP = "0.9";
-export const CURRENT_VERSION_DATE_RELEASE = "25/12/2024";
+export const CURRENT_VERSION_APP = "1.0";
+export const CURRENT_VERSION_DATE_RELEASE = "07/01/2025";
 
 export const LOCAL_STORAGE_KEYS: {
     APP: typeof APP_NAME;

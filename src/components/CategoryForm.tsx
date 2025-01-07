@@ -62,6 +62,7 @@ const CategoryForm: React.FC = () => {
                         value={currentCategory.name}
                         placeholder='My Category'
                         onChange={handleChange("name")}
+                        autoComplete='off'
                         slotProps={{
                             input: {
                                 startAdornment: (
