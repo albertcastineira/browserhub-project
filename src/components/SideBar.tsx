@@ -22,7 +22,15 @@ const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings }) => {
   };
 
   return (
-    <Box sx={{ width: "100%" }} p={2.5}>
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "calc(100vh - 40px)",
+      }}
+      p={2.5}
+    >
       <Stack
         alignItems="center"
         direction="row"
@@ -70,19 +78,54 @@ const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings }) => {
         >
           {UI_LITERALS.sidebar.newCategory}
         </Button>
+      </Stack>
+
+      <Box sx={{ flexGrow: 1 }} />
+
+      <Stack spacing={1}>
         <Button
           variant="outlined"
           startIcon={<SettingsIcon fontSize="small" />}
           onClick={handleOpenSettings}
-          sx={{ height: "3em", borderRadius: 2 }}
+          sx={{
+            height: "3em",
+            borderRadius: 2,
+            justifyContent: "flex-start",
+            borderColor: "divider",
+            borderWidth: 1.5,
+            color: "text.primary",
+            backgroundColor: "background.paper",
+            boxShadow: 1,
+            "&:hover": {
+              borderColor: "primary.main",
+              borderWidth: 1.5,
+              backgroundColor: "action.hover",
+              boxShadow: 2,
+            },
+          }}
         >
           {UI_LITERALS.common.settings}
         </Button>
         <Button
-          variant="text"
+          variant="outlined"
           startIcon={<HelpOutlineIcon fontSize="small" />}
           onClick={() => setHelpDialogOpen(true)}
-          sx={{ height: "2.8em", borderRadius: 2 }}
+          sx={{
+            height: "3em",
+            borderRadius: 2,
+            justifyContent: "flex-start",
+            borderColor: "divider",
+            borderWidth: 1.5,
+            color: "text.primary",
+            backgroundColor: "background.paper",
+            boxShadow: 1,
+            "&:hover": {
+              borderColor: "primary.main",
+              borderWidth: 1.5,
+              backgroundColor: "action.hover",
+              boxShadow: 2,
+            },
+          }}
         >
           {UI_LITERALS.common.help}
         </Button>

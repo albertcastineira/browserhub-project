@@ -27,8 +27,8 @@ const Layout: React.FC = () => {
           borderColor: "divider",
           background:
             theme.palette.mode === "light"
-              ? "linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%)"
-              : "linear-gradient(180deg, #1e1f23 0%, #181a1f 100%)",
+              ? "linear-gradient(180deg, #ffffff 0%, #f4f8ff 100%)"
+              : "linear-gradient(180deg, #1a2030 0%, #141a28 100%)",
         }}
       >
         <Sidebar handleOpenSettings={handleOpenSettings} />
@@ -39,10 +39,7 @@ const Layout: React.FC = () => {
           [theme.breakpoints.up("md")]: {
             width: "calc(100% - 300px)",
           },
-          bgcolor:
-            theme.palette.mode === "light"
-              ? theme.palette.grey[200]
-              : theme.palette.grey[800],
+          bgcolor: "background.default",
         }}
         p={2}
       >

@@ -1,5 +1,5 @@
 const APP_NAME: string = "BROWSER_HUB";
-export const CURRENT_VERSION_APP = "1.1";
+export const CURRENT_VERSION_APP = "2.0";
 export const CURRENT_VERSION_DATE_RELEASE = "21/04/2026";
 
 export const ALL_CATEGORY_ID = "0";

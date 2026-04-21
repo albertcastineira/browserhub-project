@@ -29,21 +29,24 @@ const CategoryList: React.FC = () => {
     <Box
       sx={{
         marginBottom: 3,
-        borderRadius: 2,
+        borderRadius: 1.25,
         border: 1,
         borderColor: "divider",
-        p: 1,
-        backgroundColor: "background.paper",
+        p: 0.875,
+        backgroundColor: (theme) =>
+          theme.palette.mode === "light" ? "#e8eef8" : "#172032",
       }}
     >
       <Typography
         variant="subtitle1"
         sx={{
-          marginBottom: 1.5,
+          marginBottom: 1,
+          px: 0.5,
           display: "flex",
           alignItems: "center",
           gap: 0.75,
-          fontWeight: 700,
+          fontWeight: 800,
+          color: "text.primary",
         }}
       >
         <CategoryIcon fontSize="small" />
@@ -54,7 +57,7 @@ const CategoryList: React.FC = () => {
           maxHeight: "44vh",
           scrollBehavior: "auto",
           overflow: "auto",
-          pr: 0.5,
+          pr: 0.25,
         }}
       >
         {categories.map((category) => (

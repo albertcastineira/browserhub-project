@@ -114,6 +114,8 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
           borderRadius: 3,
           border: 1,
           borderColor: "divider",
+          backgroundColor: "background.default",
+          backgroundImage: "none",
         },
       }}
     >
@@ -125,7 +127,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
           <span>{UI_LITERALS.settings.title}</span>
         </Stack>
       </DialogTitle>
-      <DialogContent sx={{ px: 3, pt: 2.5, pb: 1.5 }}>
+      <DialogContent sx={{ px: 3, pt: "20px !important", pb: 1.75 }}>
         <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
           <PaletteIcon fontSize="small" color="primary" />
           <Typography variant="subtitle1" fontWeight={700}>
@@ -203,9 +205,13 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
           sx={{
             marginTop: 3,
             borderRadius: 2,
-            p: 1.25,
+            p: 1.75,
             border: 1,
             borderColor: "error.main",
+            backgroundColor: (theme) =>
+              theme.palette.mode === "dark"
+                ? "rgba(211, 47, 47, 0.16)"
+                : "rgba(211, 47, 47, 0.08)",
           }}
         >
           <Stack direction="row" spacing={1} alignItems="center">

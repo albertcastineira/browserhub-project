@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { CssBaseline, ThemeProvider as MuiThemeProvider } from "@mui/material";
-import defaultTheme from "./theme/theme";
-import { createTheme } from "@mui/material";
 import { PaletteMode } from "@mui/material";
+import defaultTheme, { buildAppTheme } from "./theme/theme";
 import SettingsDialog from "./components/SettingsDialog";
 import Layout from "./components/Layout";
 import { LOCAL_STORAGE_KEYS } from "./utils/constants";
@@ -51,15 +50,7 @@ function App() {
     localStorage.setItem(LOCAL_STORAGE_KEYS.THEME_MODE, newMode);
   };
 
-  const currentTheme = createTheme({
-    palette: {
-      mode: mode,
-      primary: {
-        main: primaryColor,
-      },
-      secondary: defaultTheme.palette.secondary,
-    },
-  });
+  const currentTheme = buildAppTheme(mode, primaryColor);
 
   return (
     <GlobalContextProvider>

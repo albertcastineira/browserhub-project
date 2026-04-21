@@ -40,14 +40,21 @@ const Category: React.FC<CategoryProps> = ({ name, id, onDelete, onEdit }) => {
           variant={categoryActive ? "contained" : "text"}
           sx={{
             justifyContent: "flex-start",
-            fontWeight: categoryActive ? 700 : 500,
+            fontWeight: 500,
             width: "100%",
             textTransform: "none",
-            borderRadius: 2,
-            mb: 0.5,
-            px: 1.25,
+            minHeight: "2.6em",
+            borderRadius: 1,
+            mb: 0.25,
+            px: 0.9,
+            py: 0.5,
+            border: 1,
+            borderColor: categoryActive ? "primary.main" : "transparent",
             color: categoryActive ? "primary.contrastText" : "text.primary",
-            backgroundColor: categoryActive ? "primary.main" : "transparent",
+            backgroundColor: categoryActive
+              ? "primary.main"
+              : "rgba(255,255,255,0.08)",
+            boxShadow: categoryActive ? 1 : 0,
             "&:hover": {
               backgroundColor: categoryActive ? "primary.dark" : "action.hover",
             },
