@@ -22,12 +22,12 @@ const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings }) => {
   };
 
   return (
-    <Box sx={{ width: "100%" }} p={2}>
+    <Box sx={{ width: "100%" }} p={2.5}>
       <Stack
         alignItems="center"
         direction="row"
-        gap={0.2}
-        sx={{ marginBottom: 4, display: "flex" }}
+        gap={0.5}
+        sx={{ marginBottom: 3, display: "flex" }}
       >
         <Typography variant="h5" fontWeight={"bold"}>
           {UI_LITERALS.sidebar.appNamePrimary}
@@ -43,23 +43,29 @@ const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings }) => {
           sx={{
             marginLeft: 1,
             border: 1,
-            borderRadius: "5px",
+            borderRadius: "999px",
             paddingX: 1,
-            fontSize: "0.8em",
+            fontSize: "0.75em",
             fontWeight: "bold",
             color: "primary.main",
             borderColor: "primary.main",
+            backgroundColor: "background.paper",
           }}
         >
           {CURRENT_VERSION_APP}
         </Box>
       </Stack>
       <CategoryList />
-      <Stack spacing={2}>
+      <Stack spacing={1.25}>
         <Button
           onClick={() => handleNewCategoryClick()}
           variant="contained"
-          sx={{ height: "4em", fontWeight: "bold" }}
+          sx={{
+            height: "3.4em",
+            fontWeight: "bold",
+            borderRadius: 2,
+            boxShadow: 2,
+          }}
           startIcon={<AddCircleIcon />}
         >
           {UI_LITERALS.sidebar.newCategory}
@@ -68,6 +74,7 @@ const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings }) => {
           variant="outlined"
           startIcon={<SettingsIcon fontSize="small" />}
           onClick={handleOpenSettings}
+          sx={{ height: "3em", borderRadius: 2 }}
         >
           {UI_LITERALS.common.settings}
         </Button>
@@ -75,6 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings }) => {
           variant="text"
           startIcon={<HelpOutlineIcon fontSize="small" />}
           onClick={() => setHelpDialogOpen(true)}
+          sx={{ height: "2.8em", borderRadius: 2 }}
         >
           {UI_LITERALS.common.help}
         </Button>

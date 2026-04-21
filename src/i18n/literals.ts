@@ -36,6 +36,8 @@ export const UI_LITERALS = {
     title: "Welcome to BrowserHub",
     versionPrefix: "Version",
     patchNotesTitle: "New in this patch",
+    patchSummary:
+      "This release improves category consistency, UI coherence, and stability in core interactions.",
     patchChanges: [
       "Improved category filtering behavior and duplicate handling.",
       "Centralized UI literals for easier text maintenance.",

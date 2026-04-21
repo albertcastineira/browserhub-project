@@ -77,11 +77,18 @@ const CategoryForm: React.FC = () => {
       onClose={() => setCategoryFormOpen(false)}
       maxWidth="xs"
       fullWidth={true}
+      PaperProps={{
+        sx: {
+          borderRadius: 3,
+          border: 1,
+          borderColor: "divider",
+        },
+      }}
     >
-      <DialogTitle>
+      <DialogTitle sx={{ pb: 1 }}>
         {UI_LITERALS.category.dialogTitle(categoryFormMode)}
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ pt: 1 }}>
         <FormControl sx={{ minWidth: "100%" }}>
           <TextField
             id="input-with-icon-adornment"
@@ -102,7 +109,7 @@ const CategoryForm: React.FC = () => {
           />
         </FormControl>
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ px: 3, pb: 2 }}>
         <Button color="secondary" onClick={() => setCategoryFormOpen(false)}>
           {UI_LITERALS.common.cancel}
         </Button>

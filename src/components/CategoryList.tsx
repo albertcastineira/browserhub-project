@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import Category from "./Category";
 import { Box, Typography } from "@mui/material";
+import CategoryIcon from "@mui/icons-material/Category";
 import { GlobalContext } from "../context/GlobalContext";
 import { FORM_MODES } from "../utils/constants";
 import { UI_LITERALS } from "../i18n/literals";
@@ -25,14 +26,37 @@ const CategoryList: React.FC = () => {
   };
 
   return (
-    <Box sx={{ marginBottom: 6 }}>
+    <Box
+      sx={{
+        marginBottom: 3,
+        borderRadius: 2,
+        border: 1,
+        borderColor: "divider",
+        p: 1,
+        backgroundColor: "background.paper",
+      }}
+    >
       <Typography
-        variant="h6"
-        sx={{ marginBottom: 2, display: "flex", alignItems: "center" }}
+        variant="subtitle1"
+        sx={{
+          marginBottom: 1.5,
+          display: "flex",
+          alignItems: "center",
+          gap: 0.75,
+          fontWeight: 700,
+        }}
       >
+        <CategoryIcon fontSize="small" />
         {UI_LITERALS.category.title}
       </Typography>
-      <Box sx={{ maxHeight: "50vh", scrollBehavior: "auto", overflow: "auto" }}>
+      <Box
+        sx={{
+          maxHeight: "44vh",
+          scrollBehavior: "auto",
+          overflow: "auto",
+          pr: 0.5,
+        }}
+      >
         {categories.map((category) => (
           <Category
             key={category.id}

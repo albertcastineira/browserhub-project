@@ -8,12 +8,17 @@ import {
   DialogContentText,
   DialogTitle,
   Divider,
+  Stack,
   Switch,
   Typography,
 } from "@mui/material";
 import { defaultThemePrimaryColors } from "../theme/theme";
 import DownloadIcon from "@mui/icons-material/Download";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import PaletteIcon from "@mui/icons-material/Palette";
+import StorageIcon from "@mui/icons-material/Storage";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { GlobalContext } from "../context/GlobalContext";
 import { downloadStoredBrowserData } from "../utils/helpers";
 import { LOCAL_STORAGE_KEYS } from "../utils/constants";
@@ -99,14 +104,34 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
   };
 
   return (
-    <Dialog open={settingsOpen} onClose={handleClose}>
-      <DialogTitle sx={{ borderBottom: 1 }}>
-        {UI_LITERALS.settings.title}
+    <Dialog
+      open={settingsOpen}
+      onClose={handleClose}
+      maxWidth="sm"
+      fullWidth
+      PaperProps={{
+        sx: {
+          borderRadius: 3,
+          border: 1,
+          borderColor: "divider",
+        },
+      }}
+    >
+      <DialogTitle
+        sx={{ borderBottom: 1, borderColor: "divider", px: 3, py: 2.25 }}
+      >
+        <Stack direction="row" spacing={1} alignItems="center">
+          <SettingsIcon fontSize="small" />
+          <span>{UI_LITERALS.settings.title}</span>
+        </Stack>
       </DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          <h4>{UI_LITERALS.settings.themeSectionTitle}</h4>
-        </DialogContentText>
+      <DialogContent sx={{ px: 3, pt: 2.5, pb: 1.5 }}>
+        <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+          <PaletteIcon fontSize="small" color="primary" />
+          <Typography variant="subtitle1" fontWeight={700}>
+            {UI_LITERALS.settings.themeSectionTitle}
+          </Typography>
+        </Stack>
         <DialogContentText sx={{ marginBottom: 1 }}>
           {UI_LITERALS.settings.toggleDarkMode}
         </DialogContentText>
@@ -121,7 +146,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
         <DialogContentText sx={{ marginTop: 3 }}>
           {UI_LITERALS.settings.selectTheme}
         </DialogContentText>
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mt: 1 }}>
           {defaultThemePrimaryColors.map((color) => (
             <Box key={color.color} sx={{ textAlign: "center" }}>
               <Button
@@ -130,25 +155,31 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
                 sx={{
                   backgroundColor: color.color,
                   color: "white",
-                  px: 4,
-                  py: 1,
-                  height: 30,
-                  width: 5,
-                  margin: 1,
-                  borderRadius: "5px",
+                  px: 2,
+                  py: 0.5,
+                  minWidth: 72,
+                  borderRadius: "999px",
                 }}
               >
                 {color.name}
               </Button>
             </Box>
           ))}
-        </div>
+        </Box>
 
-        <Divider sx={{ marginTop: 2 }} />
+        <Divider sx={{ marginTop: 2.5 }} />
 
-        <DialogContentText>
-          <h4>{UI_LITERALS.settings.manageDataSectionTitle}</h4>
-        </DialogContentText>
+        <Stack
+          direction="row"
+          spacing={1}
+          alignItems="center"
+          sx={{ mt: 2, mb: 1 }}
+        >
+          <StorageIcon fontSize="small" color="primary" />
+          <Typography variant="subtitle1" fontWeight={700}>
+            {UI_LITERALS.settings.manageDataSectionTitle}
+          </Typography>
+        </Stack>
 
         <Box>
           <Button
@@ -168,10 +199,21 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
           </Button>
         </Box>
 
-        <Box sx={{ marginTop: 3, borderRadius: 2 }}>
-          <Typography variant="h6" color="red">
-            {UI_LITERALS.settings.dangerZone}
-          </Typography>
+        <Box
+          sx={{
+            marginTop: 3,
+            borderRadius: 2,
+            p: 1.25,
+            border: 1,
+            borderColor: "error.main",
+          }}
+        >
+          <Stack direction="row" spacing={1} alignItems="center">
+            <WarningAmberIcon fontSize="small" color="error" />
+            <Typography variant="subtitle1" color="error" fontWeight={700}>
+              {UI_LITERALS.settings.dangerZone}
+            </Typography>
+          </Stack>
           <Button
             variant="outlined"
             onClick={() => handleResetData()}
@@ -182,7 +224,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
           </Button>
         </Box>
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ px: 3, pb: 2, pt: 1.5 }}>
         <Button color="secondary" onClick={handleClose}>
           {UI_LITERALS.common.close}
         </Button>

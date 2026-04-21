@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Box, Button, useTheme } from "@mui/material";
+import { Box, Fab, useTheme } from "@mui/material";
 import Website from "./Website";
 import { GlobalContext } from "../context/GlobalContext";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -75,23 +75,37 @@ const WebsiteList: React.FC = () => {
           </div>
         )}
       </Box>
-      <Button
+      <Fab
         onClick={handleOpenWebsiteForm}
-        variant="contained"
-        startIcon={<AddCircleIcon />}
+        variant="extended"
         sx={{
           position: "fixed",
-          top: "90%",
-          right: "3%",
+          bottom: 24,
+          right: 24,
           zIndex: 1000,
-          height: "4em",
+          height: "3.4em",
+          px: 2.5,
           fontWeight: "bold",
-          color: theme.palette.mode === "dark" ? "white" : "black",
-          backgroundColor: theme.palette.mode === "dark" ? "#121212" : "white",
+          borderRadius: "999px",
+          color: "primary.contrastText",
+          background:
+            theme.palette.mode === "dark"
+              ? `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`
+              : `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`,
+          boxShadow: 6,
+          "&:hover": {
+            boxShadow: 10,
+            transform: "translateY(-2px)",
+            background:
+              theme.palette.mode === "dark"
+                ? `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`
+                : `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`,
+          },
         }}
       >
+        <AddCircleIcon sx={{ mr: 1 }} />
         {UI_LITERALS.website.createButton}
-      </Button>
+      </Fab>
     </>
   );
 };

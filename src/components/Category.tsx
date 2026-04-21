@@ -16,8 +16,7 @@ interface CategoryProps {
 
 const Category: React.FC<CategoryProps> = ({ name, id, onDelete, onEdit }) => {
   const { setSelectedCategory, selectedCategory } = useContext(GlobalContext);
-  const categoryActive = selectedCategory === id ? "contained" : "text";
-  const fontWeight = selectedCategory === id ? "bold" : "normal";
+  const categoryActive = selectedCategory === id;
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -38,15 +37,22 @@ const Category: React.FC<CategoryProps> = ({ name, id, onDelete, onEdit }) => {
         <Button
           onClick={() => setSelectedCategory(id)}
           onContextMenu={handleClick}
-          variant={categoryActive}
+          variant={categoryActive ? "contained" : "text"}
           sx={{
             justifyContent: "flex-start",
-            fontWeight: fontWeight,
+            fontWeight: categoryActive ? 700 : 500,
             width: "100%",
             textTransform: "none",
+            borderRadius: 2,
+            mb: 0.5,
+            px: 1.25,
+            color: categoryActive ? "primary.contrastText" : "text.primary",
+            backgroundColor: categoryActive ? "primary.main" : "transparent",
+            "&:hover": {
+              backgroundColor: categoryActive ? "primary.dark" : "action.hover",
+            },
           }}
           startIcon={<LabelIcon />}
-          style={{ textTransform: "none" }}
         >
           {name}
         </Button>
@@ -65,6 +71,16 @@ const Category: React.FC<CategoryProps> = ({ name, id, onDelete, onEdit }) => {
           horizontal: "center",
         }}
         sx={{ marginTop: 8 }}
+        slotProps={{
+          paper: {
+            sx: {
+              borderRadius: 2,
+              border: 1,
+              borderColor: "divider",
+              minWidth: 130,
+            },
+          },
+        }}
       >
         <MenuItem
           onClick={() => {

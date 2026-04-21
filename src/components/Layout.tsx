@@ -22,7 +22,13 @@ const Layout: React.FC = () => {
           [theme.breakpoints.up("md")]: {
             width: "300px",
           },
-          boxShadow: 1,
+          boxShadow: 3,
+          borderRight: 1,
+          borderColor: "divider",
+          background:
+            theme.palette.mode === "light"
+              ? "linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%)"
+              : "linear-gradient(180deg, #1e1f23 0%, #181a1f 100%)",
         }}
       >
         <Sidebar handleOpenSettings={handleOpenSettings} />

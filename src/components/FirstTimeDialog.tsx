@@ -8,7 +8,10 @@ import {
   DialogContentText,
   DialogTitle,
   Link,
+  Stack,
 } from "@mui/material";
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
+import SummarizeIcon from "@mui/icons-material/Summarize";
 import { GlobalContext } from "../context/GlobalContext";
 import {
   CURRENT_VERSION_APP,
@@ -41,9 +44,22 @@ const FirstTimeDialog: React.FC = () => {
     <Dialog
       open={firstTimeDialogOpen}
       onClose={() => setFirstTimeDialogOpen(false)}
+      maxWidth="sm"
+      fullWidth
+      PaperProps={{
+        sx: {
+          borderRadius: 3,
+          border: 1,
+          borderColor: "divider",
+        },
+      }}
     >
-      <DialogTitle>{UI_LITERALS.firstTime.title}</DialogTitle>
-      <DialogContent>
+      <DialogTitle
+        sx={{ borderBottom: 1, borderColor: "divider", px: 3, py: 2.25 }}
+      >
+        {UI_LITERALS.firstTime.title}
+      </DialogTitle>
+      <DialogContent sx={{ px: 3, pt: 2.5, pb: 1.5 }}>
         <DialogContentText sx={{ marginBottom: 1 }}>
           <strong>
             {UI_LITERALS.firstTime.versionPrefix} {CURRENT_VERSION_APP} -{" "}
@@ -61,15 +77,34 @@ const FirstTimeDialog: React.FC = () => {
             marginTop: 2,
             marginBottom: 2,
             padding: 2,
-            borderRadius: 1,
+            borderRadius: 2,
             border: 1,
             borderColor: "primary.main",
-            bgcolor: "action.hover",
+            bgcolor: "primary.50",
           }}
         >
-          <DialogContentText sx={{ fontWeight: "bold", marginBottom: 1 }}>
-            {UI_LITERALS.firstTime.patchNotesTitle}
-          </DialogContentText>
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            sx={{ marginBottom: 0.5 }}
+          >
+            <NewReleasesIcon fontSize="small" color="primary" />
+            <DialogContentText sx={{ fontWeight: "bold" }}>
+              {UI_LITERALS.firstTime.patchNotesTitle}
+            </DialogContentText>
+          </Stack>
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="flex-start"
+            sx={{ marginBottom: 1 }}
+          >
+            <SummarizeIcon fontSize="small" color="action" />
+            <DialogContentText>
+              {UI_LITERALS.firstTime.patchSummary}
+            </DialogContentText>
+          </Stack>
           <Box component="ul" sx={{ margin: 0, paddingLeft: 3 }}>
             {UI_LITERALS.firstTime.patchChanges.map((change) => (
               <Box component="li" key={change} sx={{ marginBottom: 0.5 }}>
@@ -90,7 +125,7 @@ const FirstTimeDialog: React.FC = () => {
           </Link>
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ px: 3, pb: 2, pt: 1.5 }}>
         <Button color="secondary" onClick={() => setFirstTimeDialogOpen(false)}>
           {UI_LITERALS.common.close}
         </Button>
