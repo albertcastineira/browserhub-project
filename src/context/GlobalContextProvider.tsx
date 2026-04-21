@@ -15,6 +15,12 @@ import {
 } from "../utils/constants";
 import { GlobalContext } from "./GlobalContext";
 import { getNextSequentialId } from "../utils/helpers";
+import {
+  areWebsitesEqual,
+  filterWebsitesByCategory,
+  getFallbackCategoryId,
+  sanitizeWebsites,
+} from "./websiteState";
 
 const getStoredBrowserData = (): {
   categories: Category[];
@@ -55,7 +61,14 @@ const getStoredBrowserData = (): {
 export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const initialStoredData = useMemo(() => getStoredBrowserData(), []);
+  const initialStoredData = useMemo(() => {
+    const storedData = getStoredBrowserData();
+
+    return {
+      categories: storedData.categories,
+      websites: sanitizeWebsites(storedData.websites, storedData.categories),
+    };
+  }, []);
 
   const [categories, setCategories] = useState<Category[]>(
     initialStoredData.categories,
@@ -82,10 +95,7 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   const filteredWebsites = useMemo(
-    () =>
-      selectedCategory !== ALL_CATEGORY_ID
-        ? websites.filter((website) => website.categoryId === selectedCategory)
-        : websites,
+    () => filterWebsitesByCategory(websites, selectedCategory),
     [selectedCategory, websites],
   );
 
@@ -96,6 +106,15 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
     );
   }, [categories, websites]);
 
+  useEffect(() => {
+    setWebsites((prevWebsites) => {
+      const normalized = sanitizeWebsites(prevWebsites, categories);
+      return areWebsitesEqual(prevWebsites, normalized)
+        ? prevWebsites
+        : normalized;
+    });
+  }, [categories]);
+
   const findWebsite = useCallback(
     (id: string): Website | undefined => {
       return websites.find((website) => website.id === id);
@@ -103,25 +122,73 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
     [websites],
   );
 
-  const createWebsite = useCallback((website: Website) => {
-    setWebsites((prevWebsites) => [
-      ...prevWebsites,
-      {
-        ...website,
-        id: website.id || getNextSequentialId(prevWebsites),
-      },
-    ]);
-  }, []);
+  const createWebsite = useCallback(
+    (website: Website) => {
+      const fallbackCategoryId = getFallbackCategoryId(categories);
+      const validCategoryIds = new Set(
+        categories
+          .map((category) => category.id)
+          .filter((categoryId) => categoryId !== ALL_CATEGORY_ID),
+      );
+
+      setWebsites((prevWebsites) => {
+        const desiredId = website.id?.trim();
+        const idAlreadyExists = prevWebsites.some(
+          (item) => item.id === desiredId,
+        );
+
+        const safeId =
+          desiredId && !idAlreadyExists
+            ? desiredId
+            : getNextSequentialId(prevWebsites);
+
+        const safeCategoryId = validCategoryIds.has(website.categoryId)
+          ? website.categoryId
+          : fallbackCategoryId;
+
+        return [
+          ...prevWebsites,
+          {
+            ...website,
+            id: safeId,
+            name: website.name.trim(),
+            url: website.url.trim(),
+            categoryId: safeCategoryId,
+          },
+        ];
+      });
+    },
+    [categories],
+  );
 
   const updateWebsite = useCallback(
     (id: string, updatedWebsite: Partial<Website>) => {
+      const validCategoryIds = new Set(
+        categories
+          .map((category) => category.id)
+          .filter((categoryId) => categoryId !== ALL_CATEGORY_ID),
+      );
+
       setWebsites((prevWebsites) =>
         prevWebsites.map((website) =>
-          website.id === id ? { ...website, ...updatedWebsite } : website,
+          website.id === id
+            ? {
+                ...website,
+                ...updatedWebsite,
+                id: website.id,
+                name: (updatedWebsite.name ?? website.name).trim(),
+                url: (updatedWebsite.url ?? website.url).trim(),
+                categoryId: validCategoryIds.has(
+                  updatedWebsite.categoryId ?? website.categoryId,
+                )
+                  ? (updatedWebsite.categoryId ?? website.categoryId)
+                  : website.categoryId,
+              }
+            : website,
         ),
       );
     },
-    [],
+    [categories],
   );
 
   const deleteWebsite = useCallback((id: string) => {

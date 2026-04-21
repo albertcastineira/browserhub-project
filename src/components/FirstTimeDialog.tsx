@@ -51,6 +51,8 @@ const FirstTimeDialog: React.FC = () => {
           borderRadius: 3,
           border: 1,
           borderColor: "divider",
+          backgroundColor: "background.default",
+          backgroundImage: "none",
         },
       }}
     >
@@ -59,7 +61,7 @@ const FirstTimeDialog: React.FC = () => {
       >
         {UI_LITERALS.firstTime.title}
       </DialogTitle>
-      <DialogContent sx={{ px: 3, pt: 2.5, pb: 1.5 }}>
+      <DialogContent sx={{ px: 3, pt: "20px !important", pb: 1.75 }}>
         <DialogContentText sx={{ marginBottom: 1 }}>
           <strong>
             {UI_LITERALS.firstTime.versionPrefix} {CURRENT_VERSION_APP} -{" "}
@@ -125,7 +127,7 @@ const FirstTimeDialog: React.FC = () => {
           </Link>
         </DialogContentText>
       </DialogContent>
-      <DialogActions sx={{ px: 3, pb: 2, pt: 1.5 }}>
+      <DialogActions sx={{ px: 3, pb: 2, pt: 1.5, gap: 1, flexWrap: "wrap" }}>
         <Button color="secondary" onClick={() => setFirstTimeDialogOpen(false)}>
           {UI_LITERALS.common.close}
         </Button>

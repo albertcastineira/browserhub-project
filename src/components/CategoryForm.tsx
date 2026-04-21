@@ -8,6 +8,7 @@ import {
   FormControl,
   InputAdornment,
   SelectChangeEvent,
+  Stack,
   TextField,
 } from "@mui/material";
 import LabelIcon from "@mui/icons-material/Label";
@@ -82,34 +83,39 @@ const CategoryForm: React.FC = () => {
           borderRadius: 3,
           border: 1,
           borderColor: "divider",
+          backgroundColor: "background.default",
+          backgroundImage: "none",
         },
       }}
     >
-      <DialogTitle sx={{ pb: 1 }}>
+      <DialogTitle
+        sx={{ borderBottom: 1, borderColor: "divider", px: 3, py: 2.25 }}
+      >
         {UI_LITERALS.category.dialogTitle(categoryFormMode)}
       </DialogTitle>
-      <DialogContent sx={{ pt: 1 }}>
+      <DialogContent sx={{ px: 3, pt: "20px !important", pb: 1.75 }}>
         <FormControl sx={{ minWidth: "100%" }}>
-          <TextField
-            id="input-with-icon-adornment"
-            value={currentCategory.name}
-            placeholder={UI_LITERALS.category.placeholder}
-            onChange={handleChange("name")}
-            autoComplete="off"
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LabelIcon />
-                  </InputAdornment>
-                ),
-              },
-            }}
-            sx={{ marginBottom: 2 }}
-          />
+          <Stack spacing={2}>
+            <TextField
+              id="input-with-icon-adornment"
+              value={currentCategory.name}
+              placeholder={UI_LITERALS.category.placeholder}
+              onChange={handleChange("name")}
+              autoComplete="off"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LabelIcon />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+          </Stack>
         </FormControl>
       </DialogContent>
-      <DialogActions sx={{ px: 3, pb: 2 }}>
+      <DialogActions sx={{ px: 3, pb: 2, pt: 1.5, gap: 1, flexWrap: "wrap" }}>
         <Button color="secondary" onClick={() => setCategoryFormOpen(false)}>
           {UI_LITERALS.common.cancel}
         </Button>

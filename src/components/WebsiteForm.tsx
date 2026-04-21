@@ -10,6 +10,7 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  Stack,
   TextField,
 } from "@mui/material";
 import LinkIcon from "@mui/icons-material/Link";
@@ -17,8 +18,7 @@ import LanguageIcon from "@mui/icons-material/Language";
 import { GlobalContext } from "../context/GlobalContext";
 import { Website } from "../domain/interfaces/Website.interface";
 import { EMPTY_WEBSITE } from "../context/defaultValues";
-import { NEW_WEBSITE_ID } from "../utils/constants";
-import { getNextSequentialId } from "../utils/helpers";
+import { ALL_CATEGORY_ID, NEW_WEBSITE_ID } from "../utils/constants";
 import { UI_LITERALS } from "../i18n/literals";
 
 const WebsiteForm: React.FC = () => {
@@ -27,7 +27,6 @@ const WebsiteForm: React.FC = () => {
     setWebsiteFormOpen,
     websiteFormMode,
     categories,
-    websites,
     createWebsite,
     currentWebsiteId,
     findWebsite,
@@ -35,6 +34,11 @@ const WebsiteForm: React.FC = () => {
   } = useContext(GlobalContext);
 
   const [currentWebsite, setCurrentWebsite] = useState<Website>(EMPTY_WEBSITE);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const selectableCategories = categories.filter(
+    (category) => category.id !== ALL_CATEGORY_ID,
+  );
 
   useEffect(() => {
     if (currentWebsiteId) {
@@ -44,6 +48,12 @@ const WebsiteForm: React.FC = () => {
       setCurrentWebsite(EMPTY_WEBSITE);
     }
   }, [currentWebsiteId, findWebsite]);
+
+  useEffect(() => {
+    if (!websiteFormOpen) {
+      setIsSaving(false);
+    }
+  }, [websiteFormOpen]);
 
   const handleChange =
     (field: keyof Website) =>
@@ -60,13 +70,28 @@ const WebsiteForm: React.FC = () => {
     };
 
   const handleSave = () => {
+    if (isSaving) {
+      return;
+    }
+
+    const normalizedWebsite: Website = {
+      ...currentWebsite,
+      name: currentWebsite.name.trim(),
+      url: currentWebsite.url.trim(),
+      categoryId:
+        currentWebsite.categoryId || selectableCategories[0]?.id || "",
+    };
+
+    if (!normalizedWebsite.name || !normalizedWebsite.url) {
+      return;
+    }
+
+    setIsSaving(true);
+
     if (currentWebsiteId !== NEW_WEBSITE_ID) {
-      updateWebsite(currentWebsiteId, currentWebsite);
+      updateWebsite(currentWebsiteId, normalizedWebsite);
     } else {
-      createWebsite({
-        ...currentWebsite,
-        id: getNextSequentialId(websites),
-      });
+      createWebsite(normalizedWebsite);
     }
 
     setWebsiteFormOpen(false);
@@ -78,69 +103,85 @@ const WebsiteForm: React.FC = () => {
       onClose={() => setWebsiteFormOpen(false)}
       maxWidth="xs"
       fullWidth
+      PaperProps={{
+        sx: {
+          borderRadius: 3,
+          border: 1,
+          borderColor: "divider",
+          backgroundColor: "background.default",
+          backgroundImage: "none",
+        },
+      }}
     >
-      <DialogTitle>
+      <DialogTitle
+        sx={{ borderBottom: 1, borderColor: "divider", px: 3, py: 2.25 }}
+      >
         {UI_LITERALS.website.dialogTitle(websiteFormMode)}
       </DialogTitle>
-      <DialogContent>
-        <FormControl fullWidth sx={{ marginBottom: 2 }}>
-          <TextField
-            id="input-website-name"
-            placeholder={UI_LITERALS.website.placeholderName}
-            value={currentWebsite.name}
-            onChange={handleChange("name")}
-            autoComplete="off"
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LanguageIcon />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          <TextField
-            id="input-website-url"
-            placeholder={UI_LITERALS.website.placeholderUrl}
-            value={currentWebsite.url}
-            onChange={handleChange("url")}
-            autoComplete="off"
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LinkIcon />
-                  </InputAdornment>
-                ),
-              },
-            }}
-            sx={{ marginY: 2 }}
-          />
-          <Select
-            id="website-category"
-            value={currentWebsite.categoryId}
-            onChange={handleChange("categoryId")}
-            displayEmpty
-            fullWidth
-            sx={{ marginBottom: 2 }}
-          >
-            <MenuItem value="" disabled>
-              {UI_LITERALS.website.selectCategoryPlaceholder}
-            </MenuItem>
-            {categories.map((category) => (
-              <MenuItem key={category.id} value={category.id}>
-                {category.name}
+      <DialogContent sx={{ px: 3, pt: "20px !important", pb: 1.75 }}>
+        <FormControl fullWidth>
+          <Stack spacing={2}>
+            <TextField
+              id="input-website-name"
+              placeholder={UI_LITERALS.website.placeholderName}
+              value={currentWebsite.name}
+              onChange={handleChange("name")}
+              autoComplete="off"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LanguageIcon />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+            <TextField
+              id="input-website-url"
+              placeholder={UI_LITERALS.website.placeholderUrl}
+              value={currentWebsite.url}
+              onChange={handleChange("url")}
+              autoComplete="off"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LinkIcon />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+            <Select
+              id="website-category"
+              value={currentWebsite.categoryId}
+              onChange={handleChange("categoryId")}
+              displayEmpty
+              fullWidth
+            >
+              <MenuItem value="" disabled>
+                {UI_LITERALS.website.selectCategoryPlaceholder}
               </MenuItem>
-            ))}
-          </Select>
+              {selectableCategories.map((category) => (
+                <MenuItem key={category.id} value={category.id}>
+                  {category.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </Stack>
         </FormControl>
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ px: 3, pb: 2, pt: 1.5, gap: 1, flexWrap: "wrap" }}>
         <Button color="secondary" onClick={() => setWebsiteFormOpen(false)}>
           {UI_LITERALS.common.cancel}
         </Button>
-        <Button color="primary" variant="contained" onClick={handleSave}>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={handleSave}
+          disabled={isSaving}
+        >
           {UI_LITERALS.common.save}
         </Button>
       </DialogActions>

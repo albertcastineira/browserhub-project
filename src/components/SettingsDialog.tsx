@@ -230,7 +230,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
           </Button>
         </Box>
       </DialogContent>
-      <DialogActions sx={{ px: 3, pb: 2, pt: 1.5 }}>
+      <DialogActions sx={{ px: 3, pb: 2, pt: 1.5, gap: 1, flexWrap: "wrap" }}>
         <Button color="secondary" onClick={handleClose}>
           {UI_LITERALS.common.close}
         </Button>

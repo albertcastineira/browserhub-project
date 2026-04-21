@@ -28,6 +28,8 @@ const HelpDialog: React.FC = () => {
           borderRadius: 3,
           border: 1,
           borderColor: "divider",
+          backgroundColor: "background.default",
+          backgroundImage: "none",
         },
       }}
     >
@@ -39,7 +41,7 @@ const HelpDialog: React.FC = () => {
           <span>{UI_LITERALS.help.title}</span>
         </Stack>
       </DialogTitle>
-      <DialogContent sx={{ px: 3, pt: 2.5, pb: 1.5 }}>
+      <DialogContent sx={{ px: 3, pt: "20px !important", pb: 1.75 }}>
         <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5 }}>
           <SearchIcon fontSize="small" color="primary" />
           <Typography variant="subtitle1" fontWeight={700}>
@@ -110,7 +112,7 @@ const HelpDialog: React.FC = () => {
           {UI_LITERALS.help.sections.persistenceText}
         </DialogContentText>
       </DialogContent>
-      <DialogActions sx={{ px: 3, pb: 2, pt: 1.5 }}>
+      <DialogActions sx={{ px: 3, pb: 2, pt: 1.5, gap: 1, flexWrap: "wrap" }}>
         <Button onClick={() => setHelpDialogOpen(false)} color="secondary">
           {UI_LITERALS.common.close}
         </Button>
