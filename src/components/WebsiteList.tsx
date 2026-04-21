@@ -5,6 +5,7 @@ import { GlobalContext } from "../context/GlobalContext";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { getBrandFromUrl } from "../utils/helpers";
 import { FORM_MODES, NEW_WEBSITE_ID } from "../utils/constants";
+import { UI_LITERALS } from "../i18n/literals";
 
 const WebsiteList: React.FC = () => {
   const {
@@ -70,7 +71,7 @@ const WebsiteList: React.FC = () => {
               marginTop: "20px",
             }}
           >
-            No websites found.
+            {UI_LITERALS.website.emptyState}
           </div>
         )}
       </Box>
@@ -89,7 +90,7 @@ const WebsiteList: React.FC = () => {
           backgroundColor: theme.palette.mode === "dark" ? "#121212" : "white",
         }}
       >
-        Website
+        {UI_LITERALS.website.createButton}
       </Button>
     </>
   );

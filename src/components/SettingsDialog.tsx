@@ -18,6 +18,7 @@ import { GlobalContext } from "../context/GlobalContext";
 import { downloadStoredBrowserData } from "../utils/helpers";
 import { LOCAL_STORAGE_KEYS } from "../utils/constants";
 import { DEFAULT_CATEGORIES, DEFAULT_WEBSITES } from "../context/defaultValues";
+import { UI_LITERALS } from "../i18n/literals";
 
 interface SettingsDialogProps {
   onChangePrimaryColor: (newColor: string) => void;
@@ -99,13 +100,15 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
 
   return (
     <Dialog open={settingsOpen} onClose={handleClose}>
-      <DialogTitle sx={{ borderBottom: 1 }}>Settings</DialogTitle>
+      <DialogTitle sx={{ borderBottom: 1 }}>
+        {UI_LITERALS.settings.title}
+      </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          <h4>Theme</h4>
+          <h4>{UI_LITERALS.settings.themeSectionTitle}</h4>
         </DialogContentText>
         <DialogContentText sx={{ marginBottom: 1 }}>
-          Toggle dark mode:
+          {UI_LITERALS.settings.toggleDarkMode}
         </DialogContentText>
         <Switch
           checked={isDarkModeEnabled}
@@ -116,7 +119,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
         />
 
         <DialogContentText sx={{ marginTop: 3 }}>
-          Select your theme:
+          {UI_LITERALS.settings.selectTheme}
         </DialogContentText>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           {defaultThemePrimaryColors.map((color) => (
@@ -144,7 +147,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
         <Divider sx={{ marginTop: 2 }} />
 
         <DialogContentText>
-          <h4>Manage data</h4>
+          <h4>{UI_LITERALS.settings.manageDataSectionTitle}</h4>
         </DialogContentText>
 
         <Box>
@@ -154,20 +157,20 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
             onClick={handleImportClick}
             sx={{ marginRight: 2 }}
           >
-            Import
+            {UI_LITERALS.settings.import}
           </Button>
           <Button
             onClick={() => downloadStoredBrowserData()}
             startIcon={<DownloadIcon />}
             variant="outlined"
           >
-            Export
+            {UI_LITERALS.settings.export}
           </Button>
         </Box>
 
         <Box sx={{ marginTop: 3, borderRadius: 2 }}>
           <Typography variant="h6" color="red">
-            Danger zone
+            {UI_LITERALS.settings.dangerZone}
           </Typography>
           <Button
             variant="outlined"
@@ -175,13 +178,13 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
             sx={{ marginTop: 2 }}
             color="secondary"
           >
-            Reset data to default
+            {UI_LITERALS.settings.resetData}
           </Button>
         </Box>
       </DialogContent>
       <DialogActions>
         <Button color="secondary" onClick={handleClose}>
-          Close
+          {UI_LITERALS.common.close}
         </Button>
       </DialogActions>
     </Dialog>

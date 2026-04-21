@@ -10,6 +10,7 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { openExternalUrlInNewTab } from "../utils/helpers";
 import { SEARCH_TYPES, SearchType } from "../utils/constants";
+import { UI_LITERALS } from "../i18n/literals";
 
 export default function SearchBar() {
   const [searchType, setSearchType] = useState<SearchType>(
@@ -72,8 +73,8 @@ export default function SearchBar() {
           flex: 1,
           minWidth: 120,
         }}
-        placeholder={`${searchType} search ...`}
-        inputProps={{ "aria-label": `search google ${searchType}` }}
+        placeholder={UI_LITERALS.search.placeholder(searchType)}
+        inputProps={{ "aria-label": UI_LITERALS.search.ariaLabel(searchType) }}
         value={query}
         autoComplete="off"
         autoCorrect="off"

@@ -5,6 +5,7 @@ import LabelIcon from "@mui/icons-material/Label";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ALL_CATEGORY_ID } from "../utils/constants";
+import { UI_LITERALS } from "../i18n/literals";
 
 interface CategoryProps {
   name: string;
@@ -72,7 +73,7 @@ const Category: React.FC<CategoryProps> = ({ name, id, onDelete, onEdit }) => {
           }}
           disableRipple
         >
-          <EditIcon sx={{ marginRight: 1 }} /> Edit
+          <EditIcon sx={{ marginRight: 1 }} /> {UI_LITERALS.common.edit}
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -82,7 +83,7 @@ const Category: React.FC<CategoryProps> = ({ name, id, onDelete, onEdit }) => {
           disableRipple
           sx={{ color: "red" }}
         >
-          <DeleteIcon sx={{ marginRight: 1 }} /> Delete
+          <DeleteIcon sx={{ marginRight: 1 }} /> {UI_LITERALS.common.delete}
         </MenuItem>
       </Menu>
     </>

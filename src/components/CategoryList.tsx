@@ -3,6 +3,7 @@ import Category from "./Category";
 import { Box, Typography } from "@mui/material";
 import { GlobalContext } from "../context/GlobalContext";
 import { FORM_MODES } from "../utils/constants";
+import { UI_LITERALS } from "../i18n/literals";
 
 const CategoryList: React.FC = () => {
   const {
@@ -29,12 +30,12 @@ const CategoryList: React.FC = () => {
         variant="h6"
         sx={{ marginBottom: 2, display: "flex", alignItems: "center" }}
       >
-        Categories
+        {UI_LITERALS.category.title}
       </Typography>
       <Box sx={{ maxHeight: "50vh", scrollBehavior: "auto", overflow: "auto" }}>
         {categories.map((category) => (
           <Category
-            key={category.name}
+            key={category.id}
             name={category.name}
             id={category.id}
             onEdit={() => handleEditCategory(category.id)}

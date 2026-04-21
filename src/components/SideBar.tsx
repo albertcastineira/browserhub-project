@@ -6,6 +6,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { GlobalContext } from "../context/GlobalContext";
 import { CURRENT_VERSION_APP } from "../utils/constants";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { UI_LITERALS } from "../i18n/literals";
 
 interface SidebarProps {
   handleOpenSettings: () => void;
@@ -29,14 +30,14 @@ const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings }) => {
         sx={{ marginBottom: 4, display: "flex" }}
       >
         <Typography variant="h5" fontWeight={"bold"}>
-          Browser
+          {UI_LITERALS.sidebar.appNamePrimary}
         </Typography>
         <Typography
           variant="h5"
           fontWeight={"bold"}
           sx={{ color: "primary.main" }}
         >
-          Hub
+          {UI_LITERALS.sidebar.appNameSecondary}
         </Typography>
         <Box
           sx={{
@@ -61,21 +62,21 @@ const Sidebar: React.FC<SidebarProps> = ({ handleOpenSettings }) => {
           sx={{ height: "4em", fontWeight: "bold" }}
           startIcon={<AddCircleIcon />}
         >
-          New category
+          {UI_LITERALS.sidebar.newCategory}
         </Button>
         <Button
           variant="outlined"
           startIcon={<SettingsIcon fontSize="small" />}
           onClick={handleOpenSettings}
         >
-          Settings
+          {UI_LITERALS.common.settings}
         </Button>
         <Button
           variant="text"
           startIcon={<HelpOutlineIcon fontSize="small" />}
           onClick={() => setHelpDialogOpen(true)}
         >
-          Help
+          {UI_LITERALS.common.help}
         </Button>
       </Stack>
     </Box>

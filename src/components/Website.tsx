@@ -5,6 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LanguageIcon from "@mui/icons-material/Language";
 import { openExternalUrlInNewTab } from "../utils/helpers";
+import { UI_LITERALS } from "../i18n/literals";
 
 export interface WebsiteProps {
   name: string;
@@ -96,7 +97,7 @@ const Website: React.FC<WebsiteProps> = ({
           }}
           disableRipple
         >
-          <EditIcon sx={{ marginRight: 1 }} /> Edit
+          <EditIcon sx={{ marginRight: 1 }} /> {UI_LITERALS.common.edit}
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -106,7 +107,7 @@ const Website: React.FC<WebsiteProps> = ({
           disableRipple
           sx={{ color: "red" }}
         >
-          <DeleteIcon sx={{ marginRight: 1 }} /> Delete
+          <DeleteIcon sx={{ marginRight: 1 }} /> {UI_LITERALS.common.delete}
         </MenuItem>
       </Menu>
     </>

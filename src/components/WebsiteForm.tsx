@@ -19,6 +19,7 @@ import { Website } from "../domain/interfaces/Website.interface";
 import { EMPTY_WEBSITE } from "../context/defaultValues";
 import { NEW_WEBSITE_ID } from "../utils/constants";
 import { getNextSequentialId } from "../utils/helpers";
+import { UI_LITERALS } from "../i18n/literals";
 
 const WebsiteForm: React.FC = () => {
   const {
@@ -26,6 +27,7 @@ const WebsiteForm: React.FC = () => {
     setWebsiteFormOpen,
     websiteFormMode,
     categories,
+    websites,
     createWebsite,
     currentWebsiteId,
     findWebsite,
@@ -63,7 +65,7 @@ const WebsiteForm: React.FC = () => {
     } else {
       createWebsite({
         ...currentWebsite,
-        id: getNextSequentialId(categories),
+        id: getNextSequentialId(websites),
       });
     }
 
@@ -77,12 +79,14 @@ const WebsiteForm: React.FC = () => {
       maxWidth="xs"
       fullWidth
     >
-      <DialogTitle>{websiteFormMode} Website</DialogTitle>
+      <DialogTitle>
+        {UI_LITERALS.website.dialogTitle(websiteFormMode)}
+      </DialogTitle>
       <DialogContent>
         <FormControl fullWidth sx={{ marginBottom: 2 }}>
           <TextField
             id="input-website-name"
-            placeholder="My Website"
+            placeholder={UI_LITERALS.website.placeholderName}
             value={currentWebsite.name}
             onChange={handleChange("name")}
             autoComplete="off"
@@ -98,7 +102,7 @@ const WebsiteForm: React.FC = () => {
           />
           <TextField
             id="input-website-url"
-            placeholder="https://my-website.url.com/"
+            placeholder={UI_LITERALS.website.placeholderUrl}
             value={currentWebsite.url}
             onChange={handleChange("url")}
             autoComplete="off"
@@ -122,7 +126,7 @@ const WebsiteForm: React.FC = () => {
             sx={{ marginBottom: 2 }}
           >
             <MenuItem value="" disabled>
-              Select a Category
+              {UI_LITERALS.website.selectCategoryPlaceholder}
             </MenuItem>
             {categories.map((category) => (
               <MenuItem key={category.id} value={category.id}>
@@ -134,10 +138,10 @@ const WebsiteForm: React.FC = () => {
       </DialogContent>
       <DialogActions>
         <Button color="secondary" onClick={() => setWebsiteFormOpen(false)}>
-          Cancel
+          {UI_LITERALS.common.cancel}
         </Button>
         <Button color="primary" variant="contained" onClick={handleSave}>
-          Save
+          {UI_LITERALS.common.save}
         </Button>
       </DialogActions>
     </Dialog>

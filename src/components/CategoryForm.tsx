@@ -15,6 +15,7 @@ import { GlobalContext } from "../context/GlobalContext";
 import { EMPTY_CATEGORY } from "../context/defaultValues";
 import { Category } from "../domain/interfaces/Category.interface";
 import { getNextSequentialId } from "../utils/helpers";
+import { UI_LITERALS } from "../i18n/literals";
 
 const CategoryForm: React.FC = () => {
   const {
@@ -77,13 +78,15 @@ const CategoryForm: React.FC = () => {
       maxWidth="xs"
       fullWidth={true}
     >
-      <DialogTitle>{categoryFormMode} category</DialogTitle>
+      <DialogTitle>
+        {UI_LITERALS.category.dialogTitle(categoryFormMode)}
+      </DialogTitle>
       <DialogContent>
         <FormControl sx={{ minWidth: "100%" }}>
           <TextField
             id="input-with-icon-adornment"
             value={currentCategory.name}
-            placeholder="My Category"
+            placeholder={UI_LITERALS.category.placeholder}
             onChange={handleChange("name")}
             autoComplete="off"
             slotProps={{
@@ -101,10 +104,10 @@ const CategoryForm: React.FC = () => {
       </DialogContent>
       <DialogActions>
         <Button color="secondary" onClick={() => setCategoryFormOpen(false)}>
-          Cancel
+          {UI_LITERALS.common.cancel}
         </Button>
         <Button color="primary" variant="contained" onClick={handleSave}>
-          Save
+          {UI_LITERALS.common.save}
         </Button>
       </DialogActions>
     </Dialog>
