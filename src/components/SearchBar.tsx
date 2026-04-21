@@ -1,45 +1,56 @@
-import React, { useState } from 'react';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
-import NewspaperIcon from '@mui/icons-material/Newspaper';
-import ImageIcon from '@mui/icons-material/Image';
-import SlideshowIcon from '@mui/icons-material/Slideshow';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
+import React, { useState } from "react";
+import Paper from "@mui/material/Paper";
+import InputBase from "@mui/material/InputBase";
+import SearchIcon from "@mui/icons-material/Search";
+import DirectionsIcon from "@mui/icons-material/Directions";
+import NewspaperIcon from "@mui/icons-material/Newspaper";
+import ImageIcon from "@mui/icons-material/Image";
+import SlideshowIcon from "@mui/icons-material/Slideshow";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import { openExternalUrlInNewTab } from "../utils/helpers";
+import { SEARCH_TYPES, SearchType } from "../utils/constants";
 
 export default function SearchBar() {
-  const [searchType, setSearchType] = useState('Default');
-  const [query, setQuery] = useState('');
+  const [searchType, setSearchType] = useState<SearchType>(
+    SEARCH_TYPES.DEFAULT,
+  );
+  const [query, setQuery] = useState("");
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setSearchType(newValue);
-    console.log(event);
+  const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
+    setSearchType(newValue as SearchType);
   };
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (query.trim()) {
-      let baseUrl = 'https://www.google.com/search?q=';
+      const baseUrl = "https://www.google.com/search?q=";
       switch (searchType) {
-        case 'Default':
-          window.open(`${baseUrl}${encodeURIComponent(query)}`, '_blank');
+        case SEARCH_TYPES.DEFAULT:
+          openExternalUrlInNewTab(`${baseUrl}${encodeURIComponent(query)}`);
           break;
-        case 'Images':
-          window.open(`${baseUrl}${encodeURIComponent(query)}&udm=2`, '_blank');
+        case SEARCH_TYPES.IMAGES:
+          openExternalUrlInNewTab(
+            `${baseUrl}${encodeURIComponent(query)}&udm=2`,
+          );
           break;
-        case 'Videos':
-          window.open(`${baseUrl}${encodeURIComponent(query)}&udm=7`, '_blank');
-          break; 
-        case 'Maps':
-          window.open(`https://www.google.com/maps?q=${encodeURIComponent(query)}`, '_blank');
+        case SEARCH_TYPES.VIDEOS:
+          openExternalUrlInNewTab(
+            `${baseUrl}${encodeURIComponent(query)}&udm=7`,
+          );
           break;
-        case 'News':
-          window.open(`${baseUrl}${encodeURIComponent(query)}&tbm=nws`, '_blank');
+        case SEARCH_TYPES.MAPS:
+          openExternalUrlInNewTab(
+            `https://www.google.com/maps?q=${encodeURIComponent(query)}`,
+          );
+          break;
+        case SEARCH_TYPES.NEWS:
+          openExternalUrlInNewTab(
+            `${baseUrl}${encodeURIComponent(query)}&tbm=nws`,
+          );
           break;
         default:
-          window.open(baseUrl, '_blank');
+          openExternalUrlInNewTab(baseUrl);
       }
     }
   };
@@ -47,19 +58,25 @@ export default function SearchBar() {
   return (
     <Paper
       component="form"
-      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: "400" }}
+      sx={{
+        p: "2px 4px",
+        display: "flex",
+        alignItems: "center",
+        width: "100%",
+      }}
       onSubmit={handleSearch}
     >
       <InputBase
-        sx={{ 
-          ml: 1, flex: 1 
-          
+        sx={{
+          ml: 1,
+          flex: 1,
+          minWidth: 120,
         }}
         placeholder={`${searchType} search ...`}
-        inputProps={{ 'aria-label': `search google ${searchType}` }}
+        inputProps={{ "aria-label": `search google ${searchType}` }}
         value={query}
-        autoComplete='off'
-        autoCorrect='off'
+        autoComplete="off"
+        autoCorrect="off"
         onChange={(e) => setQuery(e.target.value)}
       />
       <Tabs
@@ -67,14 +84,17 @@ export default function SearchBar() {
         onChange={handleChange}
         indicatorColor="primary"
         textColor="primary"
-        variant="fullWidth"
+        variant="scrollable"
+        scrollButtons={false}
+        allowScrollButtonsMobile
         aria-label="search type tabs"
+        sx={{ flexShrink: 0, maxWidth: "60%" }}
       >
-        <Tab value="Default" icon={<SearchIcon />} />
-        <Tab value="Images" icon={<ImageIcon />} />
-        <Tab value="Videos" icon={<SlideshowIcon />} />
-        <Tab value="Maps" icon={<DirectionsIcon />} />
-        <Tab value="News" icon={<NewspaperIcon />} />
+        <Tab value={SEARCH_TYPES.DEFAULT} icon={<SearchIcon />} />
+        <Tab value={SEARCH_TYPES.IMAGES} icon={<ImageIcon />} />
+        <Tab value={SEARCH_TYPES.VIDEOS} icon={<SlideshowIcon />} />
+        <Tab value={SEARCH_TYPES.MAPS} icon={<DirectionsIcon />} />
+        <Tab value={SEARCH_TYPES.NEWS} icon={<NewspaperIcon />} />
       </Tabs>
     </Paper>
   );

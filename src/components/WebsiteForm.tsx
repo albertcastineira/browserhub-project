@@ -17,6 +17,8 @@ import LanguageIcon from "@mui/icons-material/Language";
 import { GlobalContext } from "../context/GlobalContext";
 import { Website } from "../domain/interfaces/Website.interface";
 import { EMPTY_WEBSITE } from "../context/defaultValues";
+import { NEW_WEBSITE_ID } from "../utils/constants";
+import { getNextSequentialId } from "../utils/helpers";
 
 const WebsiteForm: React.FC = () => {
   const {
@@ -41,21 +43,28 @@ const WebsiteForm: React.FC = () => {
     }
   }, [currentWebsiteId, findWebsite]);
 
-  const handleChange = (field: keyof Website) => (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>
-  ) => {
-    const value = event.target.value;
-    setCurrentWebsite((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
+  const handleChange =
+    (field: keyof Website) =>
+    (
+      event:
+        | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        | SelectChangeEvent<string>,
+    ) => {
+      const value = event.target.value;
+      setCurrentWebsite((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    };
 
   const handleSave = () => {
-    if (currentWebsiteId !== "0") {
+    if (currentWebsiteId !== NEW_WEBSITE_ID) {
       updateWebsite(currentWebsiteId, currentWebsite);
     } else {
-      createWebsite(currentWebsite);
+      createWebsite({
+        ...currentWebsite,
+        id: getNextSequentialId(categories),
+      });
     }
 
     setWebsiteFormOpen(false);
@@ -76,7 +85,7 @@ const WebsiteForm: React.FC = () => {
             placeholder="My Website"
             value={currentWebsite.name}
             onChange={handleChange("name")}
-            autoComplete='off'
+            autoComplete="off"
             slotProps={{
               input: {
                 startAdornment: (
@@ -92,7 +101,7 @@ const WebsiteForm: React.FC = () => {
             placeholder="https://my-website.url.com/"
             value={currentWebsite.url}
             onChange={handleChange("url")}
-            autoComplete='off'
+            autoComplete="off"
             slotProps={{
               input: {
                 startAdornment: (
@@ -124,10 +133,7 @@ const WebsiteForm: React.FC = () => {
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <Button
-          color="secondary"
-          onClick={() => setWebsiteFormOpen(false)}
-        >
+        <Button color="secondary" onClick={() => setWebsiteFormOpen(false)}>
           Cancel
         </Button>
         <Button color="primary" variant="contained" onClick={handleSave}>

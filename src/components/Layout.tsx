@@ -7,11 +7,10 @@ import { GlobalContext } from "../context/GlobalContext";
 
 const Layout: React.FC = () => {
   const theme = useTheme();
-  const { categories, websites, settingsOpen, setSettingsOpen } =
-    useContext(GlobalContext);
+  const { setSettingsOpen } = useContext(GlobalContext);
 
   const handleOpenSettings = () => {
-    setSettingsOpen(!settingsOpen);
+    setSettingsOpen(true);
   };
 
   return (
@@ -26,7 +25,7 @@ const Layout: React.FC = () => {
           boxShadow: 1,
         }}
       >
-        <Sidebar categories={categories} handleOpenSettings={handleOpenSettings} />
+        <Sidebar handleOpenSettings={handleOpenSettings} />
       </Box>
       <Box
         sx={{
@@ -42,7 +41,7 @@ const Layout: React.FC = () => {
         p={2}
       >
         <SearchBar />
-        <WebsiteList websites={websites} />
+        <WebsiteList />
       </Box>
     </Grid2>
   );
